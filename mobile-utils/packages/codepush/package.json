@@ -1,0 +1,10 @@
+{
+  "name": "@mobile-utils/codepush",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Utils for codepush",
+  "main": "src/index.ts",
+  "author": "i.kuchaev@sweatco.in",
+  "license": "ISC",
+  "homepage": "https://github.com/sweatco/mobile-utils"
+}

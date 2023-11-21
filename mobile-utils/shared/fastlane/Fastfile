@@ -1,0 +1,262 @@
+#shared lanes between Wallet and Sweatcoin projects
+
+import '../mobile-utils/shared/fastlane/helpers.rb'
+
+platform :android do
+  lane :update_build_number do |options|
+    build_number = options[:build_number]
+    if build_number == nil
+      UI.important "build number not specified, skipping update"
+      next
+    end
+
+    build_gradle_path = '../android/app/build.gradle'
+    version_code_regexp = /versionCode\s+(\d+)/ 
+  
+    build_gradle_contents = File.read(build_gradle_path)
+    build_gradle_contents[version_code_regexp, 1] = build_number
+
+    if options[:version_name_with_build_number] then
+      version_name_regexp = /versionName\s+\"(.+)\"/
+      version_name = build_gradle_contents[version_name_regexp, 1]
+      if version_name != nil
+        version_name = "#{version_name}.#{build_number}"
+        build_gradle_contents[version_name_regexp, 1] = version_name
+      end
+    end
+  
+    File.open(build_gradle_path, 'w') do |file|
+      file.write(build_gradle_contents)
+    end
+  end
+
+  lane :build_apk_with_gradle do |options|
+    should_clean = options.delete(:clean) == true
+    gradle(
+      **options,
+      project_dir: "android",
+      task: "#{"clean " if should_clean}assemble",
+      build_type: Helpers.capitalize_first(options[:build_type]),
+      flags: Helpers.gather_gradle_flags(options)
+    )
+  end
+
+  lane :build_aab_with_gradle do |options|
+    gradle(
+      project_dir: "android",
+      task: "bundle",
+      build_type: "Release",
+      flags: Helpers.gather_gradle_flags(options),
+      print_command: false,
+      properties: {
+        "android.injected.signing.store.file" => ENV["KEYSTORE_PATH"],
+        "android.injected.signing.store.password" => ENV["KEYSTORE_PASSWORD_NO_QUOTES"],
+        "android.injected.signing.key.alias" => ENV["KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["KEY_PASSWORD_NO_QUOTES"],
+      }
+    )
+  end
+
+  lane :sign_internal do |options|
+    sign_apk(
+      keystore_path: options[:keystore_path],
+      alias: "androiddebugkey",
+      storepass: "android",
+      keypass: "android",
+      log: Helpers.should_produce_verbose_logs?
+    )
+  end
+
+  lane :align do |options|
+    zipalign(
+      apk_path: lane_context[SharedValues::SIGNED_APK_PATH],
+      log: Helpers.should_produce_verbose_logs?
+    )
+  end
+
+  lane :upload_to_firebase do |options|
+    android_artifact_path = options[:android_artifact_path]
+    if android_artifact_path == nil
+      android_artifact_path = lane_context[SharedValues::SIGNED_APK_PATH]
+      UI.important "Parameter android_artifact_path is not specified, value of lane_context[SharedValues::SIGNED_APK_PATH]
+      will be used instead."
+    end
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      android_artifact_path: android_artifact_path,
+      groups: options[:groups],
+      release_notes: options[:release_notes]
+    )
+  end
+
+  lane :upload_to_ps do |options|
+    validate_play_store_json_key(json_key: 'fastlane/google_play_store.json')
+    
+    supply(
+      package_name: options[:package_name],
+      track: options[:track] || 'alpha',
+      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
+      json_key: 'fastlane/google_play_store.json',
+      mapping_paths: lane_context[SharedValues::GRADLE_ALL_MAPPING_TXT_OUTPUT_PATHS],
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: false,
+      timeout: 600
+    )
+  end
+
+  desc "Downloads apk build from google play console(production track) and uploads it to firebase distribution"
+  lane :upload_from_gpc_to_firebase do |options|
+    build_number = options[:build_number]
+    package_name = options[:package_name]
+    certificate_sha256_hash = options[:certificate_sha256_hash]
+    if build_number == nil
+      UI.user_error!("Required build_number parameter is not specified.")
+    end
+    if package_name == nil
+      UI.user_error!("Required package_name parameter is not specified.")
+    end
+    if certificate_sha256_hash == nil
+      UI.user_error!("Required certificate_sha256_hash parameter is not specified.")
+    end
+    current_directory = Dir.pwd
+    downloaded_apk_file_name = package_name.gsub(".", "_") + "_"+ build_number.to_s + "_downloaded_from_store.apk"
+    downloaded_apk_file_path = File.join(current_directory, downloaded_apk_file_name)
+
+    UI.message "Try to download universal apk from gpc to file with path #{downloaded_apk_file_path}.
+    upload_from_gpc_to_firebase lane was running with next params:
+    build_number = #{build_number}; package_name = #{package_name}; certificate_sha256_hash = #{certificate_sha256_hash};"
+
+    download_universal_apk_from_google_play(
+      package_name: package_name,
+      version_code: build_number,
+      json_key: 'fastlane/google_play_store.json',
+      destination: downloaded_apk_file_path,
+      certificate_sha256_hash: certificate_sha256_hash
+    )
+
+    UI.message "Universal apk was downloaded."
+    UI.message "Try to upload apk to firebase distribution for internal group."
+
+    uploading_result = upload_to_firebase(groups: "internal", android_artifact_path: downloaded_apk_file_path)
+
+    UI.success "Apk was uploaded successfully."
+
+    uploading_result # as return value
+  end
+end
+
+platform :ios do
+  lane :create_and_unlock_keychain do
+    create_keychain(
+      name: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_PASSWORD"],
+      default_keychain: true,
+      timeout: 7200,
+      verbose: true
+    )
+
+    unlock_keychain(
+      path: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_PASSWORD"],
+      add_to_search_list: :replace
+    )
+  end
+
+  lane :fetch_provisioning_profiles do |options|
+    match(
+      api_key_path: ENV["ASC_API_KEY_PATH"],
+      type: options[:type],
+      readonly: true,
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_PASSWORD"],
+      output_path: options[:output_path]
+    )
+  end
+
+  lane :delete_match_keychain do |options|
+    begin
+      delete_keychain(name: ENV["MATCH_KEYCHAIN_NAME"])
+    rescue => exception
+      UI.message "#{exception}"
+    end
+  end
+
+  lane :increment_build_number_if_needed do |options|
+    if options[:build_number] != nil then
+      increment_build_number(build_number: options[:build_number], xcodeproj: options[:xcodeproj])
+    end
+  end
+
+  lane :enable_certificate_transparency_for do |options|
+    update_plist(
+      plist_path: options[:plist],
+      block: proc do |plist|
+        plist["NSAppTransportSecurity"]["NSExceptionDomains"][options[:name]] = {
+          'NSIncludesSubdomains': true,
+          'NSRequiresCertificateTransparency': true  
+        }
+      end
+    )
+  end
+
+  lane :upload_to_firebase do |options|
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      groups: options[:groups],
+      release_notes: options[:release_notes],
+      ipa_path: options[:ipa]
+    )
+  end
+
+  lane :upload_to_asc do |options|
+    upload_to_testflight(
+      api_key_path: ENV["ASC_API_KEY_PATH"],
+      skip_submission: true,
+      skip_waiting_for_build_processing: true,
+      notify_external_testers: false,
+      ipa: options[:ipa]
+    )
+  end
+end
+
+lane :report_to_rc do |options|
+  report_to_slack(
+    slack_url: ENV["SLACK_RC_REPORTING_URL"],
+    message: options[:message],
+    color: options[:color]
+  )
+end
+
+lane :report_to_builds do |options|
+  report_to_slack(
+    slack_url: ENV["SLACK_BUILDS_REPORTING_URL"],
+    message: options[:message],
+    color: options[:color]
+  )
+end
+
+private_lane :report_to_slack do |options|
+  attachment_properties = {
+    color: options[:color]
+  }.compact
+
+  slack(
+    message: options[:message],
+    slack_url: options[:slack_url],
+    link_names: true,
+    default_payloads: [],
+    attachment_properties: attachment_properties
+  )
+end
+
+lane :tag_build do |options|
+  # Kind of: `ios/130.0-5376` or `android/114.0-3787`
+  tag = "#{lane_context[:PLATFORM_NAME].to_s}/#{options[:app_version]}-#{options[:build_number]}"
+  message = "#{lane_context[:PLATFORM_NAME].to_s} #{options[:app_version]} (#{options[:build_number]})"
+
+  add_git_tag(tag: tag, message: message)
+  push_git_tags(tag: tag)
+end

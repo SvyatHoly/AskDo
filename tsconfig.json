@@ -1,0 +1,31 @@
+{
+  "extends": "./mobile-utils/shared/tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
+    "strictNullChecks": true,              /* Enable strict null checks. */
+    "noUnusedLocals": true,                /* Report errors on unused locals. */
+    "noUnusedParameters": true,
+    "baseUrl": "./js",                       /* Base directory to resolve non-absolute module names. */
+    "paths": {
+      "@mobile-utils/*": ["../mobile-utils/packages/*"],
+      "*": ["*", "*.ios", "*.android"]
+    },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+    /*
+      If you are thinking of adding some rules here, just think that they might be suitable for sweatcoin/wallet project as well.
+      In that case, please add your rules to the shared/.eslintrc file instead. - https://github.com/sweatco/mobile-utils/blob/main/shared/tsconfig.json
+      If for some reason you find it difficult to add a rule to the shared configuration, then please create a task in the CORE Jira board.
+    */
+    "noUncheckedIndexedAccess": true
+  },
+  "include": [
+    "js/**/*.ts*",
+    "dangerfile.ts",
+    "/**/*.perf-profile.js",
+    "/**/profiler-utils.js",
+    "node_modules/babel-plugin-react-intl-auto/**/*.d.ts",
+    "node_modules/redux-thunk/extend-redux.d.ts",
+    "mobile-utils/**/*",
+    "lint/**/*"
+, "index.ts"  ]
+}

@@ -1,0 +1,9 @@
+[96msrc/App/hooks/useOnboardingLesson.ts[0m:[93m22[0m:[93m61[0m - [91merror[0m[90m TS2322: [0mType '{}' is not assignable to type 'string'.
+
+[7m22[0m           const lessonResponse = await dispatch(getLesson({ id: onboardingLessonId })).unwrap()
+[7m  [0m [91m                                                            ~~[0m
+
+  [96msrc/shared/actions/api/getLesson.ts[0m:[93m8[0m:[93m3[0m
+    [7m8[0m   id: string
+    [7m [0m [96m  ~~[0m
+    The expected type comes from property 'id' which is declared here on type 'ApiLessonRequest'
