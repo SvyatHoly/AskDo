@@ -1,5 +1,4 @@
 import React from 'react'
-import { EdgeInsets } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 
 import { NavigationItemType } from '../../types'
@@ -9,21 +8,21 @@ interface TabBarProps {
   onItemSelect: (prevSelected: NavigationItemType, newSelected: NavigationItemType) => void
   selectedItem: NavigationItemType
   items: NavigationItemType[]
-  insets?: EdgeInsets
 }
 
-export const TabBar: React.FC<TabBarProps> = ({ onItemSelect, selectedItem, items, insets = null }) => {
+export const TabBar: React.FC<TabBarProps> = ({ onItemSelect, selectedItem, items }) => {
   return (
-    <Container insets={insets} testID="BottomNavigation" pointerEvents="box-none">
+    <Container testID="BottomNavigation" pointerEvents="box-none">
       <TabBarLayout onItemSelect={onItemSelect} selectedItem={selectedItem} tabBarItems={items} />
     </Container>
   )
 }
 
-const Container = styled.View<{ insets: EdgeInsets | null }>`
+const Container = styled.View`
   position: absolute;
-  bottom: ${({ insets }) => insets?.bottom ?? 0}px;
+  bottom: 0px;
   align-items: center;
   justify-content: flex-end;
   align-self: center;
+  width: 100%;
 `

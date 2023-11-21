@@ -1,5 +1,5 @@
 export enum NavigationItemType {
-  Tasks = 'Tasks',
+  Tasks = 'Task list',
   Chat = 'Chat',
   Profile = 'Profile',
 }

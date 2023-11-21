@@ -1,13 +1,13 @@
 import React, { useCallback, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
-// import { Colors, rem } from 'sweatcoin-design-system'
+import rem from 'utils/rem'
+import { Footnote } from 'design-system/tokens/Text'
+import { Colors } from 'design-system/Colors'
 
-import { assertUnreachable } from 'utils/UnreachableCaseError'
 import { triggerHaptic } from 'utils/hapticFeedback'
 
 import { NavigationItemType } from '../../types'
-import { BottomNavigationShadow } from './BottomNavigationShadow'
 import { IconKey, useMapNavigationItemTypeToIcons } from './TabBarIcons/icons'
 
 interface Props {
@@ -27,12 +27,7 @@ export const TabBarLayout: React.FC<Props> = ({ onItemSelect, selectedItem, tabB
     [onItemSelect]
   )
 
-  return (
-    <Layout>
-      {/* <BottomNavigationShadow /> */}
-      {tabBarItems.map(renderItem)}
-    </Layout>
-  )
+  return <Layout>{tabBarItems.map(renderItem)}</Layout>
 
   function renderItem(item: NavigationItemType) {
     const isSelected = selectedItem === item
@@ -67,30 +62,33 @@ const TabBarItem = React.memo(({ item, onSelect, iconKey, isSelected }: TabBarIt
   return (
     <TabBarButton onPress={() => onSelect(item)}>
       <Icon isSelected={isSelected} />
+      <Title isSelected={isSelected}>{item}</Title>
     </TabBarButton>
   )
 })
 
 const Layout = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background: red;
+  justify-content: center;
+  align-items: flex-start;
+  height: ${rem(85)}px;
+  width: 100%;
+  gap: ${rem(37)}px;
+  border-top-right-radius: ${rem(15)}px;
+  border-top-left-radius: ${rem(15)}px;
+  border: 1px solid ${Colors.greySuperLight};
+  padding: ${rem(10)}px;
 `
 
-const TabBarButton = styled(TouchableOpacity)`
+const TabBarButton = styled(TouchableOpacity).attrs({
+  hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
+})`
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: ${rem(50)}px;
+  height: ${rem(50)}px;
 `
 
-/* border-radius: ${rem(28)}px; */
-/* padding: ${rem(4)}px ${rem(20)}px; */
-/* background: ${({ isDarkModeEnabled }) => (isDarkModeEnabled ? Colors.classicBlue : Colors.white)}; */
-/* gap: ${rem(16)}px; */
-
-// hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
-
-/* width: ${rem(48)}px;
-  height: ${rem(48)}px; */
+const Title = styled(Footnote)<{ isSelected: boolean }>`
+  color: ${({ isSelected }) => (isSelected ? Colors.darkBlue : Colors.greyInactive)};
+`

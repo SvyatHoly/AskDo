@@ -1,13 +1,7 @@
 import { NavigationItemType } from '../../../types'
-import { MarketDark } from './MarketDark'
-import { MarketLight } from './MarketLight'
-import { MarketSelected } from './MarketSelected'
-import { SocialDark } from './SocialDark'
-import { SocialLight } from './SocialLight'
-import { SocialSelected } from './SocialSelected'
-import { WalletDark } from './WalletDark'
-import { WalletLight } from './WalletLight'
-import { WalletSelected } from './WalletSelected'
+import { Profile } from './Profile'
+import { Tasks } from './Tasks'
+import { Chat } from './Chat'
 
 export enum IconKey {
   dark = 'dark',
@@ -21,19 +15,19 @@ type IconsSet = Record<NavigationItemType, ElementIcons>
 export const useMapNavigationItemTypeToIcons = (tabBarItem: NavigationItemType) => {
   const icons: IconsSet = {
     [NavigationItemType.Tasks]: {
-      [IconKey.dark]: MarketDark,
-      [IconKey.light]: MarketDark,
-      [IconKey.selected]: MarketDark,
+      [IconKey.dark]: Tasks,
+      [IconKey.light]: Tasks,
+      [IconKey.selected]: Tasks,
     },
     [NavigationItemType.Chat]: {
-      [IconKey.dark]: MarketDark,
-      [IconKey.light]: MarketDark,
-      [IconKey.selected]: MarketDark,
+      [IconKey.dark]: Chat,
+      [IconKey.light]: Chat,
+      [IconKey.selected]: Chat,
     },
     [NavigationItemType.Profile]: {
-      [IconKey.dark]: MarketDark,
-      [IconKey.light]: MarketDark,
-      [IconKey.selected]: MarketDark,
+      [IconKey.dark]: Profile,
+      [IconKey.light]: Profile,
+      [IconKey.selected]: Profile,
     },
   }
 
