@@ -1,6 +1,15 @@
 {
   "extends": "./mobile-utils/shared/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
     "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
     "strictNullChecks": true,              /* Enable strict null checks. */
     "noUnusedLocals": true,                /* Report errors on unused locals. */
@@ -8,7 +17,7 @@
     "baseUrl": "./js",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
       "@mobile-utils/*": ["../mobile-utils/packages/*"],
-      "*": ["*", "*.ios", "*.android"]
+      "*": ["*", "*.ios", "*.android", "js/*"]
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     /*

@@ -1,35 +1,35 @@
-const messagesDir = process.env.INTL_MESSAGES_DIR || "./translations/src";
+const messagesDir = process.env.INTL_MESSAGES_DIR || './translations/src'
 
 module.exports = {
-  presets: ["module:metro-react-native-babel-preset"],
+  presets: ['module:metro-react-native-babel-preset'],
   plugins: [
-    "@babel/plugin-transform-flow-strip-types",
+    '@babel/plugin-transform-flow-strip-types',
     [
-      "@babel/plugin-proposal-decorators",
+      '@babel/plugin-proposal-decorators',
       {
         legacy: true,
       },
     ],
-    "@babel/plugin-proposal-class-properties",
+    '@babel/plugin-proposal-class-properties',
     [
-      "module-resolver",
+      'module-resolver',
       {
-        root: ["./js"],
+        root: ['./js'],
         extensions: [
-          ".js",
-          ".ts",
-          ".tsx",
-          ".ios.js",
-          ".ios.ts",
-          ".ios.tsx",
-          ".android.js",
-          ".android.ts",
-          ".android.tsx",
+          '.js',
+          '.ts',
+          '.tsx',
+          '.ios.js',
+          '.ios.ts',
+          '.ios.tsx',
+          '.android.js',
+          '.android.ts',
+          '.android.tsx',
         ],
-        alias: { images: "./assets/images/" },
+        alias: { images: './assets/images/' },
       },
     ],
-    "react-native-reanimated/plugin",
+    'react-native-reanimated/plugin',
   ],
   sourceMaps: true,
   overrides: [
@@ -37,12 +37,9 @@ module.exports = {
       test: /.*\.[tj]sx?/,
       exclude: /\/node_modules\//,
       plugins: [
-        [
-          "react-intl-auto",
-          { removePrefix: "js/", filebase: true, includeExportName: true },
-        ],
-        ["react-intl", { messagesDir: messagesDir }],
+        ['react-intl-auto', { removePrefix: 'js/', filebase: true, includeExportName: true }],
+        ['react-intl', { messagesDir: messagesDir }],
       ],
     },
   ],
-};
+}

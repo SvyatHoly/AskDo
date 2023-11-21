@@ -5,8 +5,8 @@ import { featureModule } from 'utils/modulesRegistry'
 import * as constants from './constants'
 // import { NavigationItemType } from './types'
 
-export const MainScreen = featureModule(
-  (registry) => registry.addScreen(constants.screens.MainScreen, () => import('./screens/MainScreen'))
+export const TasksModule = featureModule(
+  (registry) => registry.addScreen(constants.screens.TasksScreen, () => import('./screens/TasksScreen'))
 
   // .addScreen<typeof constants.screens.MainScreen, NavigatorScreenParams<Record<NavigationItemType, undefined>>>(
   //   constants.screens.MainScreen,
