@@ -2,7 +2,6 @@ import React from 'react'
 import Svg, { Path, G } from 'react-native-svg'
 
 export const Tasks: React.FC = ({ isSelected }: { isSelected?: boolean }) => {
-  console.log('🚀 ~ file: Tasks.tsx:5 ~ isSelected:', isSelected)
   return (
     <>
       {isSelected ? (
