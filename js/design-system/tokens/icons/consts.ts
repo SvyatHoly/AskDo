@@ -13,3 +13,7 @@ export const enum IconPosition {
   RIGHT = 'right',
   CENTER = 'center',
 }
+
+export const enum IconType {
+  ALARM_CHECKED = 'alarmChecked',
+}

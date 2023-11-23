@@ -3,10 +3,10 @@ import { TouchableOpacity, ViewProps } from 'react-native'
 import styled, { ThemeProvider, css } from 'styled-components/native'
 
 import { ButtonColor, ButtonLoadingType, ButtonSize, ButtonType } from './consts'
-import { Colors } from '../Colors'
+import { Colors } from '../tokens/Colors'
 import { IconPosition } from '../tokens/icons/consts'
 import * as TextStyles from '../tokens/Text'
-import rem from 'utils/rem'
+import rem from '../tokens/rem'
 
 export interface Props extends Pick<ViewProps, 'style'> {
   testID?: string
@@ -163,11 +163,7 @@ const Layout = styled.View`
   background-color: ${(props) => props.theme.button.backgroundColor};
   ${({ theme }: { theme: Theme }) =>
     theme.button.size === 'small'
-      ? css`
-          height: ${rem(32)}px;
-          min-width: ${rem(80)}px;
-          padding-horizontal: ${rem(12)}px;
-        `
+      ? css``
       : css`
           height: ${rem(50)}px;
           min-width: ${rem(50)}px;

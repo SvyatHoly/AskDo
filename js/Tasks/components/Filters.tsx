@@ -1,25 +1,28 @@
 import { Filter } from './icons/Filter'
 import { Search } from './icons/Search'
-import rem from 'utils/rem'
 
 import { BodyM } from 'design-system/tokens/Text'
 import { Button } from 'design-system/atoms/Button'
 import { ButtonSize, ButtonType } from 'design-system/atoms/consts'
 import styled from 'styled-components/native'
 import React from 'react'
-import { Colors } from 'design-system/Colors'
+import { Colors, rem } from 'design-system'
 
-export const Filters: React.FC = () => {
+interface Props {
+  onClick: () => void
+}
+
+export const Filters: React.FC<Props> = ({ onClick }) => {
   return (
     <Container>
-      <IconButton size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY} icon={Search({})} />
+      <IconButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY} icon={Search({})} />
 
-      <IconButton size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY} icon={Filter({})} />
+      <IconButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY} icon={Filter({})} />
 
-      <TextButton size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
+      <TextButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY}>
         <Text>Price</Text>
       </TextButton>
-      <TextButton2 size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
+      <TextButton2 size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY}>
         <Text>Meeting place</Text>
       </TextButton2>
     </Container>

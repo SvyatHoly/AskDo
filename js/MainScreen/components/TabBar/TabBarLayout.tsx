@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
-import rem from 'utils/rem'
+
 import { Footnote } from 'design-system/tokens/Text'
-import { Colors } from 'design-system/Colors'
+import { Colors, rem } from 'design-system'
 
 import { triggerHaptic } from 'utils/hapticFeedback'
 

@@ -1,8 +1,8 @@
 import styled from 'styled-components/native'
 
 import { BlackFont, BoldFont, ExtraBoldFont, MediumFont, RegularFont } from './fonts'
-import { Colors } from '../Colors'
-import { cfs, spacing } from 'utils/cfs'
+import { Colors } from './Colors'
+import { cfs, spacing } from './cfs'
 
 export {
   BlackFont,
@@ -107,7 +107,7 @@ export const Title3 = TitleS
 export const BodyL = styled.Text`
   ${RegularFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkBlue};
   font-size: ${cfs(20)}px;
   line-height: ${cfs(20 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -116,7 +116,7 @@ export const BodyL = styled.Text`
 export const BodyM = styled.Text`
   ${RegularFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkBlue};
   font-size: ${cfs(16)}px;
   line-height: ${cfs(16 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -152,7 +152,6 @@ export const CalloutM = styled.Text`
 export const Footnote = styled.Text`
   ${RegularFont};
 
-  color: ${Colors.white};
   font-size: ${cfs(12)}px;
   line-height: ${cfs(12 * 1.4)}px;
   letter-spacing: ${spacing(0)}px;

@@ -4,6 +4,18 @@ const colorScheme = Appearance.getColorScheme()
 const isDarkMode = colorScheme === 'dark'
 
 class Colors {
+  static get transparent() {
+    return 'rgba(0, 0, 0, 0)'
+  }
+  static get normalBlue() {
+    return 'rgba(125, 216, 255, 1)'
+  }
+  static get lightBlue() {
+    return 'rgba(244, 252, 255, 1)'
+  }
+  static get greyForInput() {
+    return 'rgba(243, 243, 243, 1)'
+  }
   static get darkText() {
     return 'rgba(6, 39, 53, 1)'
   }
@@ -81,27 +93,6 @@ class Colors {
   }
   static get darkBlue5() {
     return 'rgba(25, 24, 65, 0.05)'
-  }
-  static get lightBlue() {
-    return 'rgb(60, 214, 238)'
-  }
-  static get lightBlue80() {
-    return 'rgba(60, 214, 238, 0.8)'
-  }
-  static get lightBlue60() {
-    return 'rgba(60, 214, 238, 0.6)'
-  }
-  static get lightBlue30() {
-    return 'rgba(60, 214, 238, 0.3)'
-  }
-  static get lightBlue20() {
-    return 'rgba(60, 214, 238, 0.2)'
-  }
-  static get lightBlue10() {
-    return 'rgba(60, 214, 238, 0.1)'
-  }
-  static get lightBlue5() {
-    return 'rgba(60, 214, 238, 0.05)'
   }
   static get red() {
     return 'rgb(255, 38, 38)'
