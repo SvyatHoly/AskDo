@@ -64,8 +64,6 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     }
   }, [isValid, isValidInternal])
 
-  const values: [number, number, number, number] = [rem(12), rem(16), rem(-12), 0]
-
   const placeholderReduced = internalValue.length > 0
   const placeholderStyle = useAnimatedStyle(() => {
     const easingConfig = {
@@ -102,12 +100,12 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   return (
     <Container style={style}>
       <Layout minHeight={minHeight} isMultiline={multiline}>
-        <Placeholder.Container>
+        <Placeholder.Container hasIcon={icon}>
           <Placeholder.Body style={placeholderStyle} numberOfLines={1} ellipsizeMode={'tail'}>
             {placeholder}
           </Placeholder.Body>
         </Placeholder.Container>
-        <IconContainer>{icon}</IconContainer>
+        {icon && <IconContainer>{icon}</IconContainer>}
 
         <StyledRNTextInput
           {...textInputProps}
@@ -175,7 +173,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
 const Container = styled(View)``
 
 const IconContainer = styled.View`
-  margin-left: ${rem(20)}px;
+  margin-right: ${rem(5)}px;
   align-items: center;
   justify-content: center;
 `
@@ -186,6 +184,7 @@ const Layout = styled.View<{ minHeight?: number; isMultiline?: boolean }>`
   border-radius: ${rem(12)}px;
   flex-direction: row;
   align-items: center;
+  padding-left: ${rem(20)}px;
   min-height: ${({ minHeight }) => rem(minHeight ?? 0)}px;
 `
 
@@ -205,12 +204,12 @@ const ValidatorIcon = styled.View`
 `
 
 const Placeholder = {
-  Container: styled.View`
+  Container: styled.View<{ hasIcon: boolean }>`
     position: absolute;
     height: 100%;
     width: 100%;
     top: ${rem(15)}px;
-    left: ${rem(50)}px;
+    left: ${({ hasIcon }) => rem(hasIcon ? 55 : 30)}px;
     /* padding-top: ${rem(22)}px;
     padding-start: ${rem(22)}px;
     padding-end: ${rem(16)}px; */

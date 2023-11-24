@@ -20,7 +20,7 @@ export {
 export const Steps = styled.Text`
   ${MediumFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(60)}px;
   letter-spacing: ${spacing(-0.8)}px;
   line-height: ${cfs(60 * 1.2)}px;
@@ -29,7 +29,7 @@ export const Steps = styled.Text`
 export const CardL = styled.Text`
   ${BlackFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(56)}px;
   letter-spacing: ${spacing(0)}px;
   line-height: ${cfs(56 * 1.2)}px;
@@ -38,7 +38,7 @@ export const CardL = styled.Text`
 export const CardM = styled.Text`
   ${ExtraBoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(48)}px;
   letter-spacing: ${spacing(0)}px;
   line-height: ${cfs(48 * 1.1)}px;
@@ -47,7 +47,7 @@ export const CardM = styled.Text`
 export const MainHeadline = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(48)}px;
   letter-spacing: ${spacing(-0.6)}px;
   line-height: ${cfs(48 * 1.3)}px;
@@ -56,7 +56,7 @@ export const MainHeadline = styled.Text`
 export const SecondaryHeadline = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(36)}px;
   letter-spacing: ${spacing(-0.4)}px;
   line-height: ${cfs(36 * 1.3)}px;
@@ -65,7 +65,7 @@ export const SecondaryHeadline = styled.Text`
 export const TitleL = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(28)}px;
   line-height: ${cfs(28 * 1.3)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -79,7 +79,7 @@ export const Title1 = TitleL
 export const TitleM = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(24)}px;
   line-height: ${cfs(24 * 1.3)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -93,7 +93,7 @@ export const Title2 = TitleM
 export const TitleS = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(20)}px;
   line-height: ${cfs(20 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -125,7 +125,7 @@ export const BodyM = styled.Text`
 export const BodyS = styled.Text`
   ${RegularFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(14)}px;
   line-height: ${cfs(14 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -134,7 +134,7 @@ export const BodyS = styled.Text`
 export const CalloutL = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(16)}px;
   line-height: ${cfs(16 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
@@ -143,7 +143,7 @@ export const CalloutL = styled.Text`
 export const CalloutM = styled.Text`
   ${BoldFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(12)}px;
   line-height: ${cfs(12 * 1.4)}px;
   letter-spacing: ${spacing(0)}px;
@@ -161,7 +161,7 @@ export const Footnote = styled.Text`
 export const FootnoteCaps = styled.Text`
   ${MediumFont};
 
-  color: ${Colors.white};
+  color: ${Colors.darkText};
   font-size: ${cfs(12)}px;
   line-height: ${cfs(12 * 1.4)}px;
   letter-spacing: ${spacing(0)}px;

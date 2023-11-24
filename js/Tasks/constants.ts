@@ -7,6 +7,11 @@ export const screens = {
   TasksScreen: createScreenName('TasksScreen'),
 }
 
+enum MODAL_TYPE {
+  find,
+  filter,
+}
+
 //const createActionName = (name: string) => `action/${PACE_BOOST_MODULE_NAME}/${name}`
 
 // Reducers
@@ -21,4 +26,4 @@ const SUB_REDUCERS = {
   ONBOARDING: 'onboarding' as const,
 }
 
-export { ACTIONS, REDUCER_NAME, SUB_REDUCERS }
+export { ACTIONS, REDUCER_NAME, SUB_REDUCERS, MODAL_TYPE }

@@ -8,6 +8,7 @@ import { rootModule } from 'modules'
 import { configuratorRegistry } from 'utils/configuratorRegistry'
 import { registerModule } from 'utils/modulesRegistry'
 import { configureAppStore } from 'utils/store'
+import moment from 'moment'
 
 registerModule(rootModule)
 AppRegistry.registerComponent('AskDo', () => {
@@ -21,6 +22,12 @@ if (Platform.OS === 'android') {
 // ts-prune-ignore-next
 export async function app() {
   const store = await configureAppStore()
+
+  moment.updateLocale('en', {
+    week: {
+      dow: 1,
+    },
+  })
 
   setupListeners(store.dispatch)
   configureActions(store)

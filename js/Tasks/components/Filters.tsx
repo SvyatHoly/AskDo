@@ -7,22 +7,32 @@ import { ButtonSize, ButtonType } from 'design-system/atoms/consts'
 import styled from 'styled-components/native'
 import React from 'react'
 import { Colors, rem } from 'design-system'
-
+import { MODAL_TYPE } from 'Tasks/constants'
 interface Props {
-  onClick: () => void
+  onClick: (arg0: MODAL_TYPE) => void
 }
 
 export const Filters: React.FC<Props> = ({ onClick }) => {
   return (
     <Container>
-      <IconButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY} icon={Search({})} />
+      <IconButton
+        size={ButtonSize.BIG}
+        onPress={() => onClick(MODAL_TYPE.find)}
+        type={ButtonType.PRIMARY}
+        icon={Search({})}
+      />
 
-      <IconButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY} icon={Filter({})} />
+      <IconButton
+        size={ButtonSize.BIG}
+        onPress={() => onClick(MODAL_TYPE.filter)}
+        type={ButtonType.PRIMARY}
+        icon={Filter({})}
+      />
 
-      <TextButton size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY}>
+      <TextButton size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
         <Text>Price</Text>
       </TextButton>
-      <TextButton2 size={ButtonSize.BIG} onPress={onClick} type={ButtonType.PRIMARY}>
+      <TextButton2 size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
         <Text>Meeting place</Text>
       </TextButton2>
     </Container>
@@ -52,4 +62,5 @@ const Container = styled.View`
   gap: ${rem(10)}px;
   padding-left: ${rem(12)}px;
   padding-right: ${rem(12)}px;
+  padding-bottom: ${rem(10)}px;
 `

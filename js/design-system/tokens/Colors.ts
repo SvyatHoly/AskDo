@@ -4,8 +4,14 @@ const colorScheme = Appearance.getColorScheme()
 const isDarkMode = colorScheme === 'dark'
 
 class Colors {
+  static get normalOrange() {
+    return 'rgba(255, 121, 81, 1)'
+  }
   static get transparent() {
     return 'rgba(0, 0, 0, 0)'
+  }
+  static get darkText() {
+    return 'rgba(6, 39, 53, 1)'
   }
   static get normalBlue() {
     return 'rgba(125, 216, 255, 1)'

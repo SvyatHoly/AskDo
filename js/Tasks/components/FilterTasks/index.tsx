@@ -6,18 +6,13 @@ import { TextStyles, rem, Colors } from 'design-system'
 import { CloseIcon } from 'shared/icons/CloseIcon'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Dropdown } from 'shared/Dropdown'
-
-import { SearchIcon } from 'shared/icons/SearchIcon'
-import { RoundCloseIcon } from 'shared/icons/RoundCloseIcon'
+import { PriceDropdown } from 'shared/PriceDropdown'
 
 interface Props {
   onClose: () => void
 }
 export const FilterTasks: React.FC<Props> = ({ onClose }) => {
   const [value, setValue] = useState('')
-  const onEraze = () => {
-    setValue('')
-  }
 
   return (
     <SafeAreaInsetsContext.Consumer>
@@ -33,16 +28,43 @@ export const FilterTasks: React.FC<Props> = ({ onClose }) => {
             </Header>
             <Separator />
             <InputContainer>
+              <PriceDropdown title={'Price'} didSelectItem={setValue} didExpandDropdown={() => {}} />
+            </InputContainer>
+            <InputContainer>
               <Dropdown
-                title={'Courier services'}
-                key={'1'}
+                title={'Meeting Place'}
+                // key={'1'}
                 dataSource={{
                   1: '1',
                   2: '2',
                   3: '3',
+                  4: '4',
+                  5: '5',
+                  6: '6',
+                  7: '7',
                 }}
                 initialItem={1}
-                placeholder={'placeholder'}
+                didSelectItem={setValue}
+                didExpandDropdown={() => {}}
+              />
+            </InputContainer>
+            <InputContainer>
+              <Dropdown
+                title={'Meeting Place'}
+                // key={'1'}
+                dataSource={{
+                  1: '1',
+                  2: '2',
+                  3: '3',
+                  4: '4',
+                  5: '5',
+                  6: '6',
+                  7: '7',
+                  8: '8',
+                  9: '9',
+                  10: '10',
+                }}
+                initialItem={1}
                 didSelectItem={setValue}
                 didExpandDropdown={() => {}}
               />
@@ -64,18 +86,11 @@ const InputContainer = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  margin: ${rem(12)}px;
+  margin-left: ${rem(12)}px;
+  margin-right: ${rem(12)}px;
+  margin-top: ${rem(10)}px;
 `
 
-const ErazeButton = styled(TouchableOpacity).attrs({
-  hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
-})`
-  align-items: center;
-  justify-content: center;
-  width: ${rem(15)}px;
-  height: ${rem(15)}px;
-  margin-right: ${rem(20)}px;
-`
 const CloseButton = styled(TouchableOpacity).attrs({
   hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
 })`

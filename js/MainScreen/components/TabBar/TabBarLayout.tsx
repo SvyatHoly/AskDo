@@ -78,6 +78,7 @@ const Layout = styled.View`
   border-top-left-radius: ${rem(15)}px;
   border: 1px solid ${Colors.greySuperLight};
   padding: ${rem(10)}px;
+  background-color: ${Colors.white};
 `
 
 const TabBarButton = styled(TouchableOpacity).attrs({
