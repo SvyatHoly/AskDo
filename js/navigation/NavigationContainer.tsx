@@ -15,19 +15,19 @@ const screenOptions = ({ route }: { route: RouteProp<ParamListBase, string> }): 
 })
 
 interface NavigationEntryPointProps {
-  moduleName: string
+  moduleNames: string[]
   initialRouteName: keyof ReactNavigation.RootParamList
   additionalScreens?: React.ReactNode | React.ReactNode[]
   popups?: React.ReactNode | React.ReactNode[]
 }
 
 export const NavigationEntryPoint = ({
-  moduleName,
+  moduleNames,
   initialRouteName,
   additionalScreens,
   popups,
 }: NavigationEntryPointProps) => {
-  const screens = getScreens(moduleName)
+  const screens = getScreens(moduleNames)
 
   const navContainer = (
     <>

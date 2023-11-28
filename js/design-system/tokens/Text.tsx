@@ -66,8 +66,28 @@ export const TitleL = styled.Text`
   ${BoldFont};
   color: ${Colors.darkText};
   font-size: ${cfs(28)}px;
-  line-height: ${cfs(28 * 1.3)}px;
   letter-spacing: ${spacing(-0.2)}px;
+`
+
+export const CaptionM = styled.Text`
+  ${RegularFont};
+  color: ${Colors.darkText};
+  font-size: ${cfs(14)}px;
+  letter-spacing: ${spacing(-0.91)}px;
+`
+
+export const HeadingM = styled.Text`
+  ${BoldFont};
+  color: ${Colors.darkText};
+  font-size: ${cfs(28)}px;
+  letter-spacing: ${spacing(-1.82)}px;
+`
+
+export const LabelL = styled.Text`
+  ${BoldFont};
+  color: ${Colors.darkText};
+  font-size: ${cfs(18)}px;
+  letter-spacing: ${spacing(-1.17)}px;
 `
 
 /**

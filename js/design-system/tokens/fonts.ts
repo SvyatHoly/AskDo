@@ -44,7 +44,7 @@ export const BoldFont =
         font-style: normal;
       `
     : css`
-        font-family: 'Inter-Bold';
+        font-family: 'Inter';
         font-weight: 700;
       `
 

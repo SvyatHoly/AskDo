@@ -7,7 +7,7 @@ import { storeWrapper } from 'utils/store'
 import { Navigation } from 'navigation'
 import { NavigationEntryPoint } from 'navigation/NavigationContainer'
 import { screens, MODULE_NAME } from 'MainScreen/constants'
-
+import { MODULE_NAME as ClientProfileModuleName } from 'ClientProfile/constants'
 // Function which is called after the navigation container and all its children finish mounting for the first time.
 const onReady = () => {
   Navigation.onNavigationReady()
@@ -39,7 +39,7 @@ export const Root = storeWrapper(() => {
         </>
       */
           additionalScreens={undefined}
-          moduleName={MODULE_NAME}
+          moduleNames={[MODULE_NAME, ClientProfileModuleName]}
         />
       </NavigationContainer>
     </GestureRootView>

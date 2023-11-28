@@ -44,8 +44,8 @@ function addStack<Name extends keyof ReactNavigation.RootParamList>(
   })
 }
 
-export function getScreens(key: string): Array<Screen<any>> | undefined {
-  return screens.filter((el) => extractModuleFromString(el.name) === key)
+export function getScreens(keys: string[]): Array<Screen<any>> | undefined {
+  return screens.filter((el) => keys.includes(extractModuleFromString(el.name)))
 }
 
 export const screenRegistry = {

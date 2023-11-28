@@ -3,7 +3,9 @@ import styled from 'styled-components/native'
 import { Colors, TextStyles, rem } from 'design-system'
 import { UserAvatar } from 'shared/UserAvatar'
 import moment from 'moment'
-
+import { TouchableOpacity } from 'react-native'
+import { Navigation } from 'navigation'
+import { screens } from 'ClientProfile/constants'
 export interface Props {
   image: string
   name: string
@@ -24,20 +26,27 @@ export const Author: React.FC<Props> = ({ image, name, lastVisit }) => {
     }
   }
 
+  const handlePress = () => {
+    Navigation.navigate(screens.ClientDetailsScreen)
+  }
+
   return (
-    <VStack>
-      <BlackLabel>Task author</BlackLabel>
-      <HStack>
-        <UserAvatar image={image} name={image} />
-        <MiniVStack>
-          <BlackLabel>{name}</BlackLabel>
-          <GrayLabel>{getStatus(lastVisit)}</GrayLabel>
-        </MiniVStack>
-      </HStack>
-    </VStack>
+    <Container onPress={handlePress}>
+      <VStack>
+        <BlackLabel>Task author</BlackLabel>
+        <HStack>
+          <UserAvatar image={image} name={image} />
+          <MiniVStack>
+            <BlackLabel>{name}</BlackLabel>
+            <GrayLabel>{getStatus(lastVisit)}</GrayLabel>
+          </MiniVStack>
+        </HStack>
+      </VStack>
+    </Container>
   )
 }
 
+const Container = styled(TouchableOpacity)``
 const HStack = styled.View`
   flex-direction: row;
   align-items: center;
