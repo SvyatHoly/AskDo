@@ -4,6 +4,12 @@ const colorScheme = Appearance.getColorScheme()
 const isDarkMode = colorScheme === 'dark'
 
 class Colors {
+  static get darkText2() {
+    return 'rgba(64, 64, 64, 1)'
+  }
+  static get normalGreen() {
+    return 'rgba(0, 200, 31, 1)'
+  }
   static get normalOrange() {
     return 'rgba(255, 121, 81, 1)'
   }
@@ -21,9 +27,6 @@ class Colors {
   }
   static get greyForInput() {
     return 'rgba(243, 243, 243, 1)'
-  }
-  static get darkText() {
-    return 'rgba(6, 39, 53, 1)'
   }
   static get greyButtonBackground() {
     return 'rgba(251, 251, 251, 1)'

@@ -12,7 +12,7 @@ interface Props {
   onClick: (arg0: MODAL_TYPE) => void
 }
 
-export const Filters: React.FC<Props> = ({ onClick }) => {
+export const ControlBar: React.FC<Props> = ({ onClick }) => {
   return (
     <Container>
       <IconButton

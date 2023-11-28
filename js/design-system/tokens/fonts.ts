@@ -9,7 +9,8 @@ export const RegularFont =
         font-style: normal;
       `
     : css`
-        font-family: 'Inter-Regular';
+        font-family: 'Inter';
+        font-weight: 500;
       `
 
 export const MediumFont =
@@ -23,6 +24,18 @@ export const MediumFont =
         font-family: 'Inter-Medium';
       `
 
+export const MediumBold =
+  Platform.OS === 'web'
+    ? css`
+        font-family: 'Inter';
+        font-weight: 700;
+        font-style: normal;
+      `
+    : css`
+        font-family: 'Inter-Bold';
+        font-weight: 600;
+      `
+
 export const BoldFont =
   Platform.OS === 'web'
     ? css`
@@ -32,6 +45,7 @@ export const BoldFont =
       `
     : css`
         font-family: 'Inter-Bold';
+        font-weight: 700;
       `
 
 export const ExtraBoldFont =

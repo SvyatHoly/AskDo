@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { BlackFont, BoldFont, ExtraBoldFont, MediumFont, RegularFont } from './fonts'
+import { BlackFont, BoldFont, ExtraBoldFont, MediumBold, MediumFont, RegularFont } from './fonts'
 import { Colors } from './Colors'
 import { cfs, spacing } from './cfs'
 
@@ -64,7 +64,6 @@ export const SecondaryHeadline = styled.Text`
 
 export const TitleL = styled.Text`
   ${BoldFont};
-
   color: ${Colors.darkText};
   font-size: ${cfs(28)}px;
   line-height: ${cfs(28 * 1.3)}px;
@@ -118,8 +117,7 @@ export const BodyM = styled.Text`
 
   color: ${Colors.darkBlue};
   font-size: ${cfs(16)}px;
-  line-height: ${cfs(16 * 1.4)}px;
-  letter-spacing: ${spacing(-0.2)}px;
+  letter-spacing: ${spacing(-1.04)}px;
 `
 
 export const BodyS = styled.Text`
@@ -138,6 +136,14 @@ export const CalloutL = styled.Text`
   font-size: ${cfs(16)}px;
   line-height: ${cfs(16 * 1.4)}px;
   letter-spacing: ${spacing(-0.2)}px;
+`
+
+export const LabelM = styled.Text`
+  ${MediumBold};
+
+  color: ${Colors.darkText};
+  font-size: ${cfs(16)}px;
+  letter-spacing: ${spacing(-1.04)}px;
 `
 
 export const CalloutM = styled.Text`

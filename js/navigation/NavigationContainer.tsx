@@ -1,10 +1,10 @@
-import { DefaultTheme, NavigationContainer, ParamListBase, RouteProp } from '@react-navigation/native'
+import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import React from 'react'
 import { Platform } from 'react-native'
 import { getScreens } from 'utils/screenRegistry'
 
-import { Navigation, isAnimationDisabled, isModal } from './Navigation'
+import { isAnimationDisabled, isModal } from './Navigation'
 import { Stack } from './Stack'
 
 const screenOptions = ({ route }: { route: RouteProp<ParamListBase, string> }): NativeStackNavigationOptions => ({
@@ -14,43 +14,36 @@ const screenOptions = ({ route }: { route: RouteProp<ParamListBase, string> }): 
   customAnimationOnGesture: Platform.OS === 'ios',
 })
 
-const SwcTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: 'transparent',
-  },
-}
-
-// Function which is called after the navigation container and all its children finish mounting for the first time.
-const onReady = () => {
-  Navigation.onNavigationReady()
-}
-
 interface NavigationEntryPointProps {
+  moduleName: string
   initialRouteName: keyof ReactNavigation.RootParamList
   additionalScreens?: React.ReactNode | React.ReactNode[]
   popups?: React.ReactNode | React.ReactNode[]
 }
 
-export const NavigationEntryPoint = ({ initialRouteName, additionalScreens, popups }: NavigationEntryPointProps) => {
-  const screens = getScreens()
+export const NavigationEntryPoint = ({
+  moduleName,
+  initialRouteName,
+  additionalScreens,
+  popups,
+}: NavigationEntryPointProps) => {
+  const screens = getScreens(moduleName)
 
   const navContainer = (
-    <NavigationContainer theme={SwcTheme} ref={Navigation.navigationRef} onReady={onReady}>
+    <>
       <Stack.Navigator initialRouteName={initialRouteName} screenOptions={screenOptions}>
-        {screens.map(({ name, component, getId }) => (
-          <Stack.Screen
-            name={name as keyof ReactNavigation.RootParamList}
-            component={component}
-            key={name as keyof ReactNavigation.RootParamList}
-            getId={getId}
-          />
-        ))}
-        {additionalScreens}
+        {screens &&
+          screens.map(({ name, component, getId }) => (
+            <Stack.Screen
+              name={name as keyof ReactNavigation.RootParamList}
+              component={component}
+              key={name as keyof ReactNavigation.RootParamList}
+              getId={getId}
+            />
+          ))}
       </Stack.Navigator>
       {popups}
-    </NavigationContainer>
+    </>
   )
 
   return navContainer

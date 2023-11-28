@@ -48,27 +48,6 @@ export const FilterTasks: React.FC<Props> = ({ onClose }) => {
                 didExpandDropdown={() => {}}
               />
             </InputContainer>
-            <InputContainer>
-              <Dropdown
-                title={'Meeting Place'}
-                // key={'1'}
-                dataSource={{
-                  1: '1',
-                  2: '2',
-                  3: '3',
-                  4: '4',
-                  5: '5',
-                  6: '6',
-                  7: '7',
-                  8: '8',
-                  9: '9',
-                  10: '10',
-                }}
-                initialItem={1}
-                didSelectItem={setValue}
-                didExpandDropdown={() => {}}
-              />
-            </InputContainer>
           </Page>
         </>
       )}

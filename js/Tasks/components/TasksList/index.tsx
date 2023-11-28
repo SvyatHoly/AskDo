@@ -5,7 +5,8 @@ import React, { useMemo } from 'react'
 
 import { TaskCard } from './TaskCard'
 import { Colors } from 'design-system'
-
+import { Navigation } from 'navigation'
+import { screens } from 'Tasks/constants'
 interface Props {}
 
 export const TasksList: React.FC<Props> = () => {
@@ -20,8 +21,11 @@ export const TasksList: React.FC<Props> = () => {
   }
   const items = useMemo(() => (Array.isArray(dataSource) ? dataSource : Object.values(dataSource)), [dataSource])
 
+  const handleCardTap = (id: string) => {
+    Navigation.navigate(screens.TaskDetailsScreen)
+  }
   const rowRenderer: FlashListProps<string>['renderItem'] = ({ item }) => {
-    return <TaskCard />
+    return <TaskCard onPress={handleCardTap} />
   }
   const keyExtractor: FlashListProps<string>['keyExtractor'] = (item) => item
   return (

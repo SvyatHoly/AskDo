@@ -1,18 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { Filters } from '../components/Filters'
+import { ControlBar } from '../components/ControlBar'
 import { PopupPresenter } from 'shared/PopupPresenter'
 import { FindTask } from '../components/FindTask'
 import { FilterTasks } from '../components/FilterTasks'
 import { MODAL_TYPE } from 'Tasks/constants'
-import Calendar from 'shared/PeriodPicker'
-import moment from 'moment'
-import { View } from 'react-native'
-import { TasksList } from '../components/TasksList'
-export const TasksScreen: React.FC = () => {
-  const [tempStartAtDate, setTempStartAtDate] = useState<number>(moment().valueOf())
 
+import { TasksList } from '../components/TasksList'
+
+export const TasksScreen: React.FC = () => {
   const findRef = useRef(null)
   const filterRef = useRef(null)
 
@@ -34,7 +31,7 @@ export const TasksScreen: React.FC = () => {
     <SafeAreaInsetsContext.Consumer>
       {(insets) => (
         <Page insets={insets}>
-          <Filters onClick={onPress} />
+          <ControlBar onClick={onPress} />
           <TasksList />
           <PopupPresenter ref={findRef} component={FindTask} forwardProps={{ onClose }} />
           <PopupPresenter ref={filterRef} component={FilterTasks} forwardProps={{ onClose }} />

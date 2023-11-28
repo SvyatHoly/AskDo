@@ -5,25 +5,19 @@ import moment from 'moment'
 import { LocationIcon } from 'shared/icons/LocationIcon'
 import { TimeHistoryIcon } from 'shared/icons/TimeHistoryIcon'
 import { ServiceIcon } from 'shared/icons/ServiceIcon'
-
-interface TaskCardModel {
-  type: string
-  price: number
-  currency: string
-  desciption: string
-  startDate: number
-  traits: string[]
-  location: string
-  postDate: number
+import { TouchableOpacity } from 'react-native'
+import { TaskCardModel } from 'Tasks/types'
+interface Props {
+  onPress: (id: string) => void
 }
-interface Props {}
 
-export const TaskCard: React.FC<Props> = () => {
+export const TaskCard: React.FC<Props> = ({ onPress }) => {
   const model: TaskCardModel = {
+    id: '1',
     type: 'Installation',
     price: 123,
     currency: 'USD',
-    desciption: 'House keeper with cooking skills',
+    description: 'House keeper with cooking skills',
     startDate: 1700842610,
     traits: [
       'one',
@@ -42,7 +36,7 @@ export const TaskCard: React.FC<Props> = () => {
   }
 
   return (
-    <Container>
+    <Container onPress={() => onPress(model.id)}>
       <HStack>
         <ColorStrip>
           <ServiceIcon />
@@ -52,12 +46,12 @@ export const TaskCard: React.FC<Props> = () => {
             <TypeLabel>{model.type}</TypeLabel>
             <PriceLabel>{model.price + model.currency}</PriceLabel>
           </HStack>
-          <DesctiptionLabel>{model.desciption}</DesctiptionLabel>
+          <DesctiptionLabel>{model.description}</DesctiptionLabel>
           <StartDateLabel>Start from {moment.unix(model.startDate).format('DD MMMM')}</StartDateLabel>
           <Text>{model.traits.join(' • ')}</Text>
           <LocationAndTimeContainer>
             <HStack>
-              <LocationIcon />
+              <LocationIcon color="#9B9B9B" />
               <LocationLabel>{model.location}</LocationLabel>
             </HStack>
             <HStack>
@@ -73,21 +67,13 @@ export const TaskCard: React.FC<Props> = () => {
 
 const LocationAndTimeContainer = styled.View`
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* flex: 1; */
-  /* padding: ${rem(12)}px; */
-  /* height: 100%; */
   gap: ${rem(5)}px;
 `
 const Text = styled(TextStyles.CalloutM).attrs({
   numberOfLines: 3,
-})`
-  word-wrap: break-word;
-  text-overflow: ellipsis;
-`
+})``
 
 const LocationLabel = styled(TextStyles.BodyS)`
-  text-overflow: ellipsis;
   color: ${Colors.greyInactive};
   flex: 1;
   margin-left: ${rem(10)}px;
@@ -114,7 +100,7 @@ const VStack = styled.View`
   height: 100%;
   gap: ${rem(10)}px;
 `
-const Container = styled.View`
+const Container = styled(TouchableOpacity)`
   background-color: ${Colors.white};
   margin-top: ${rem(18)}px;
   margin-left: ${rem(20)}px;

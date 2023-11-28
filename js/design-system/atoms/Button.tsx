@@ -14,7 +14,7 @@ export interface Props extends Pick<ViewProps, 'style'> {
   type?: ButtonType
   size?: ButtonSize
   color?: ButtonColor
-  backgroundColor?: ButtonColor
+  backgroundColor?: string
   icon?: React.ReactNode
   iconPosition?: IconPosition
   debounceMs?: number

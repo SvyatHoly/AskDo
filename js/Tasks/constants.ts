@@ -1,10 +1,12 @@
 import { createModuleScreenName } from 'navigation/utils'
 
-const MODULE_NAME = 'Tasks'
+export const MODULE_NAME = 'Tasks'
 const createScreenName = createModuleScreenName(MODULE_NAME)
 
 export const screens = {
+  TasksStack: createScreenName('TasksStack'),
   TasksScreen: createScreenName('TasksScreen'),
+  TaskDetailsScreen: createScreenName('TaskDetailsScreen'),
 }
 
 enum MODAL_TYPE {

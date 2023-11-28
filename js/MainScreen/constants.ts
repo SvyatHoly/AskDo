@@ -1,6 +1,6 @@
 import { createModuleScreenName } from 'navigation/utils'
 
-const MODULE_NAME = 'MainScreen'
+export const MODULE_NAME = 'MainScreen'
 const createScreenName = createModuleScreenName(MODULE_NAME)
 
 export const screens = {

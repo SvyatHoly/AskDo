@@ -1,4 +1,5 @@
 export const enum ButtonColor {
+  BLUE = 'blue',
   DARK_BLUE = 'dark-blue',
   WHITE = 'white',
   GREY = 'grey',
