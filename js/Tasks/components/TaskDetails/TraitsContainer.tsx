@@ -82,7 +82,7 @@ const Container = styled.View`
 const PriceTitle = styled(TextStyles.TitleS)``
 
 const Greaylabel = styled(TextStyles.BodyS)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
 `
 
 const Greenlabel = styled(TextStyles.BodyS)`

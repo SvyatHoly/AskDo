@@ -48,21 +48,20 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
   const rowRenderer: FlashListProps<string>['renderItem'] = ({ item }) => {
     const selected = selectedItemsMap[item]
     return (
-      <DropdownListItem
-        onLayout={handleLayout}
-        selected={selected}
-        value={item}
-        onPress={() => handlePress(item)}
-        isListItem
-      />
+      <DropdownListItem onLayout={handleLayout} selected={selected} value={item} onPress={() => handlePress(item)} />
     )
   }
   const handleLayout = (event: LayoutChangeEvent) => {
     if (itemsLayoutCounter === items.length) {
       return
     }
-    setItemsLayoutCounter(itemsLayoutCounter + 1)
-    setHeight(height + event.nativeEvent.layout.height)
+    setItemsLayoutCounter(items.length)
+    console.log(
+      '🚀 ~ file: Dropdown.tsx:62 ~ handleLayout ~ event.nativeEvent.layout.height:',
+      event.nativeEvent.layout.height
+    )
+
+    setHeight(items.length * event.nativeEvent.layout.height)
   }
   const keyExtractor: FlashListProps<string>['keyExtractor'] = (item) => item
 
@@ -99,12 +98,12 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
           {renderHeader()}
           <FlashList
             data={items}
-            nestedScrollEnabled
+            scrollEnabled={false}
             estimatedItemSize={50}
             renderItem={rowRenderer}
             keyExtractor={keyExtractor}
             initialScrollIndex={0}
-            extraData={flashListUpdater}
+            // extraData={flashListUpdater}
           />
         </>
       ) : (

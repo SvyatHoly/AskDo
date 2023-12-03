@@ -79,12 +79,12 @@ const VStack = styled.View`
   gap: ${rem(10)}px;
 `
 const LocationLabel = styled(TextStyles.BodyM)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
   margin-left: ${rem(10)}px;
 `
 
 const GrayLabel = styled(TextStyles.LabelM)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
 `
 
 const BlackLabel = styled(TextStyles.BodyM)`

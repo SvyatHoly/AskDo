@@ -64,10 +64,16 @@ export interface PopupPresenterHandle {
   close(): void
 }
 
-type Type = 'default' | 'bottom' | 'bottom_elastic' | 'top' | 'fade-in' | 'easy-in-out'
+export enum PopupType {
+  bottom,
+  bottom_elastic,
+  top,
+  fadeIn,
+  easyInOut,
+}
 
 interface ContainerProps {
-  type: Type
+  type: PopupType
 }
 
 interface PopupPresenterProps<CP> {
@@ -78,7 +84,7 @@ interface PopupPresenterProps<CP> {
   tapBackgroundToClose?: boolean
   autoPresent?: boolean
   presentationDelay?: number
-  type?: Type
+  type?: PopupType
   backgroundColor?: string
 }
 
@@ -118,7 +124,7 @@ export const PopupPresenter = forwardRef<PopupPresenterHandle, PopupPresenterPro
 
   const position = useSharedValue(height)
   const layoutStyle = useAnimatedStyle(() => {
-    if (type === 'fade-in') {
+    if (type === PopupType.fadeIn) {
       return {}
     }
     return {
@@ -133,7 +139,7 @@ export const PopupPresenter = forwardRef<PopupPresenterHandle, PopupPresenterPro
       ctx.startY = position.value
     },
     onActive: (event, ctx) => {
-      if (type === 'bottom' && event.velocityX >= 0) {
+      if (type === PopupType.bottom && event.velocityX >= 0) {
         return
       }
 
@@ -179,29 +185,31 @@ export const PopupPresenter = forwardRef<PopupPresenterHandle, PopupPresenterPro
 
   return (
     <Modal statusBarTranslucent={true} transparent={true} visible={visible}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <PanGestureHandler ref={backgroundTapRef} enabled={swipeToClose && active} onGestureEvent={gestureHandler}>
-          <BackgroundSwipeContainer>
-            <TapGestureHandler
-              enabled={tapEnabled}
-              waitFor={[panRef, backgroundTapRef]}
-              onHandlerStateChange={handleBackgroundTap}>
-              <Background style={backgroundStyle} backgroundColor={backgroundColor} />
-            </TapGestureHandler>
-          </BackgroundSwipeContainer>
-        </PanGestureHandler>
-        <PanGestureHandler ref={panRef} enabled={swipeEnabled} onGestureEvent={gestureHandler}>
-          <Container type={type} pointerEvents="box-none">
-            <Layout
-              style={layoutStyle}
-              layout={LayoutAnimation.springify()}
-              onLayout={handleLayoutChange}
-              pointerEvents="box-none">
-              <PresentedComponent {...forwardProps} close={close} />
-            </Layout>
-          </Container>
-        </PanGestureHandler>
-      </GestureHandlerRootView>
+      <KeyboardAvoidingView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <PanGestureHandler ref={backgroundTapRef} enabled={swipeToClose && active} onGestureEvent={gestureHandler}>
+            <BackgroundSwipeContainer>
+              <TapGestureHandler
+                enabled={tapEnabled}
+                waitFor={[panRef, backgroundTapRef]}
+                onHandlerStateChange={handleBackgroundTap}>
+                <Background style={backgroundStyle} backgroundColor={backgroundColor} />
+              </TapGestureHandler>
+            </BackgroundSwipeContainer>
+          </PanGestureHandler>
+          <PanGestureHandler ref={panRef} enabled={swipeEnabled} onGestureEvent={gestureHandler}>
+            <Container type={type} pointerEvents="box-none">
+              <Layout
+                style={layoutStyle}
+                // layout={LayoutAnimation.springify()}
+                onLayout={handleLayoutChange}
+                pointerEvents="box-none">
+                <PresentedComponent {...forwardProps} close={close} />
+              </Layout>
+            </Container>
+          </PanGestureHandler>
+        </GestureHandlerRootView>
+      </KeyboardAvoidingView>
     </Modal>
   )
 
@@ -236,18 +244,18 @@ export const PopupPresenter = forwardRef<PopupPresenterHandle, PopupPresenterPro
     setPopupLayout(event.nativeEvent.layout)
   }
 
-  function getSpringConfig(type: Type) {
-    if (type === 'bottom') {
-      return {
-        SpringEnterConfig: BottomSpringEnterConfig,
-        SpringExitConfig: BottomSpringExitConfig,
-      }
-    } else if (type === 'bottom_elastic') {
-      return {
-        SpringEnterConfig: BottomElasticSpringEnterConfig,
-        SpringExitConfig: BottomElasticSpringExitConfig,
-      }
-    }
+  function getSpringConfig(type: PopupType) {
+    // if (type === PopupType.bottom) {
+    //   return {
+    //     SpringEnterConfig: DefaultSpringEnterConfig,
+    //     SpringExitConfig: DefaultSpringExitConfig,
+    //   }
+    // } else if (type === PopupType.bottom_elastic) {
+    //   return {
+    //     SpringEnterConfig: BottomElasticSpringEnterConfig,
+    //     SpringExitConfig: BottomElasticSpringExitConfig,
+    //   }
+    // }
     return {
       SpringEnterConfig: DefaultSpringEnterConfig,
       SpringExitConfig: DefaultSpringExitConfig,
@@ -258,12 +266,13 @@ export const PopupPresenter = forwardRef<PopupPresenterHandle, PopupPresenterPro
 const Container = styled(Animated.View)<ContainerProps>`
   justify-content: ${(props) => {
     switch (props.type) {
-      case 'bottom':
-      case 'easy-in-out':
-      case 'bottom_elastic':
+      case PopupType.bottom:
         return 'flex-end'
-      case 'top':
-      case 'fade-in':
+      case PopupType.easyInOut:
+      case PopupType.bottom_elastic:
+        return 'flex-end'
+      case PopupType.top:
+      case PopupType.fadeIn:
         return 'flex-start'
       default:
         return 'center'
@@ -285,5 +294,14 @@ const Background = styled(BackgroundSwipeContainer)<{ backgroundColor: string }>
 `
 
 const Layout = styled(Animated.View)`
+  /* max-height: 100%; */
   align-items: center;
+  /* justify-content: flex-end; */
+`
+
+const KeyboardAvoidingView = styled.KeyboardAvoidingView.attrs({
+  behavior: 'padding',
+  enabled: true,
+})`
+  flex: 1;
 `

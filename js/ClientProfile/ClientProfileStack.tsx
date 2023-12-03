@@ -7,5 +7,5 @@ const getInitialRouteName = () => {
 }
 
 export const TasksStack = () => {
-  return <NavigationEntryPoint initialRouteName={getInitialRouteName()} moduleName={MODULE_NAME} />
+  return <NavigationEntryPoint initialRouteName={getInitialRouteName()} moduleNames={[MODULE_NAME]} />
 }

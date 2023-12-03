@@ -74,7 +74,7 @@ const Text = styled(TextStyles.CalloutM).attrs({
 })``
 
 const LocationLabel = styled(TextStyles.BodyS)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
   flex: 1;
   margin-left: ${rem(10)}px;
 `

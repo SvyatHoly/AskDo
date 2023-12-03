@@ -54,7 +54,7 @@ const HStack = styled.View<{ gap: number }>`
 `
 
 const GrayText = styled(TextStyles.BodyM)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
 `
 const BlackText = styled(TextStyles.BodyM)`
   color: ${Colors.darkText};

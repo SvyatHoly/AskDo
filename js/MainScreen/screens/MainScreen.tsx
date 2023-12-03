@@ -3,7 +3,8 @@ import { NavigationContextProvider, useIsNavShown } from '../hooks/useBottomNavi
 import { NavigationItemType } from '../types'
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TabBar } from '../components/TabBar/TabBar'
-import { TasksStack } from '../../Tasks/TasksStack'
+import { TasksStack } from 'Tasks/TasksStack'
+import { ProfileStack } from 'Profile/ProfileStack'
 
 const Tab = createBottomTabNavigator()
 const { Tasks, Chat, Profile } = NavigationItemType
@@ -17,7 +18,7 @@ export const MainScreen = () => {
         tabBar={(props) => <NavigationTabBar {...props} />}>
         <Tab.Screen name={Tasks} component={TasksStack} />
         <Tab.Screen name={Chat} component={TasksStack} />
-        <Tab.Screen name={Profile} component={TasksStack} />
+        <Tab.Screen name={Profile} component={ProfileStack} />
       </Tab.Navigator>
     </NavigationContextProvider>
   )

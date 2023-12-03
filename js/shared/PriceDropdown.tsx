@@ -19,6 +19,7 @@ export const PriceDropdown: React.FC<Props> = ({ title, didSelectItem, didExpand
   const [isKeyboardVisible] = useKeyboard()
   const [height, setHeight] = useState(1)
   const [itemsLayoutCounter, setItemsLayoutCounter] = useState(0)
+  const [val, setVal] = useState('')
 
   useEffect(() => {
     if (expanded) {
@@ -60,28 +61,32 @@ export const PriceDropdown: React.FC<Props> = ({ title, didSelectItem, didExpand
         <>
           {renderHeader()}
           <HStack onLayout={handleLayout}>
-            <StyledTextInput
-              required={true}
-              // autoFocus={true}
-              placeholder={'From'}
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              isValid={true}
-              editable={true}
-              // value={'value'}
-              onChangeText={() => {}}
-            />
+            <InputContainer>
+              <StyledTextInput
+                required={true}
+                placeholder={'From'}
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                isValid={true}
+                editable={true}
+                value={val}
+                onChangeText={setVal}
+              />
+            </InputContainer>
+
             <TextElement> - </TextElement>
-            <StyledTextInput
-              required={true}
-              placeholder={'To'}
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              isValid={true}
-              editable={true}
-              // value={'value'}
-              onChangeText={() => {}}
-            />
+            <InputContainer>
+              <StyledTextInput
+                required={true}
+                placeholder={'To'}
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                isValid={true}
+                editable={true}
+                // value={'value'}
+                onChangeText={() => {}}
+              />
+            </InputContainer>
           </HStack>
         </>
       ) : (
@@ -102,18 +107,27 @@ export const PriceDropdown: React.FC<Props> = ({ title, didSelectItem, didExpand
   }
 }
 
-const StyledTextInput = styled(TextInput)`
-  flex: 1;
-  background-color: ${Colors.white};
+const InputContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   border-radius: ${rem(15)}px;
+  background-color: ${Colors.white};
+  flex: 1;
+  height: ${rem(50)}px;
   margin-left: ${rem(10)}px;
   margin-right: ${rem(10)}px;
+`
+
+const StyledTextInput = styled(TextInput)`
+  flex: 1;
 `
 
 const HStack = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: ${rem(50)}px;
 `
 
 const DropdownContainer = styled.View<{ expanded: boolean; height: number; hasSelectedItems: boolean }>`

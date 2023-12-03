@@ -18,9 +18,7 @@ export interface Month_Type {
 export function getMonths(pastYearRange: number, futureYearRange: number) {
   const currentYear = moment().year()
   const startYear = currentYear - pastYearRange
-  console.log('🚀 ~ file: data.ts:21 ~ getMonths ~ startYear:', startYear)
   const endYear = currentYear + futureYearRange
-  console.log('🚀 ~ file: data.ts:23 ~ getMonths ~ endYear:', endYear)
 
   const months: any = []
   for (let i = 0; i < endYear - startYear; i++) {

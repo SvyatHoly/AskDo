@@ -22,5 +22,5 @@ const VStack = styled.View`
 `
 
 const GrayText = styled(TextStyles.BodyM)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
 `

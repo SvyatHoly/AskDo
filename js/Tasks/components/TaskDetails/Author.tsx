@@ -63,7 +63,7 @@ const VStack = styled.View`
 `
 
 const GrayLabel = styled(TextStyles.LabelM)`
-  color: ${Colors.greyInactive};
+  color: ${Colors.grayInactive};
 `
 
 const BlackLabel = styled(TextStyles.BodyM)`

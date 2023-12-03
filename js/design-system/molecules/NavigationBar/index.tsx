@@ -95,7 +95,7 @@ const NavigationBar = (props: Props) => {
     const { onLeftButtonPress } = props
     return (
       <HeaderButton onPress={onLeftButtonPress} onLayout={handleLeftButtonLayout}>
-        <BackIcon />
+        {props.leftButtonType && <BackIcon />}
       </HeaderButton>
     )
   }

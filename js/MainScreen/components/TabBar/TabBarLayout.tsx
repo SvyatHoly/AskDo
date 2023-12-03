@@ -91,5 +91,5 @@ const TabBarButton = styled(TouchableOpacity).attrs({
 `
 
 const Title = styled(Footnote)<{ isSelected: boolean }>`
-  color: ${({ isSelected }) => (isSelected ? Colors.darkBlue : Colors.greyInactive)};
+  color: ${({ isSelected }) => (isSelected ? Colors.darkBlue : Colors.grayInactive)};
 `

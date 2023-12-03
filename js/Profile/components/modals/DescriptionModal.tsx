@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { TextStyles, rem, Colors } from 'design-system'
+import { TextStyles, rem, Colors, Button } from 'design-system'
 
 import { CloseIcon } from 'shared/icons/CloseIcon'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { TextInput } from 'shared/TextInput'
 
-import { SearchIcon } from 'shared/icons/SearchIcon'
-import { RoundCloseIcon } from 'shared/icons/RoundCloseIcon'
-
 interface Props {
+  text: string
   onClose: () => void
+  onSave: (value: string) => void
 }
-export const FindTask: React.FC<Props> = ({ onClose }) => {
-  const [value, setValue] = useState('')
-  const onEraze = () => {
-    setValue('')
-  }
+export const DescriptionModal: React.FC<Props> = ({ text, onClose, onSave }) => {
+  const [value, setValue] = useState(text)
+
   return (
     <SafeAreaInsetsContext.Consumer>
       {(insets) => (
@@ -25,7 +22,7 @@ export const FindTask: React.FC<Props> = ({ onClose }) => {
           <Page insets={insets}>
             <Header>
               <Balancer />
-              <TextStyles.BodyL>Find a task</TextStyles.BodyL>
+              <TextStyles.BodyL>Description</TextStyles.BodyL>
               <CloseButton onPress={onClose}>
                 <CloseIcon />
               </CloseButton>
@@ -33,29 +30,46 @@ export const FindTask: React.FC<Props> = ({ onClose }) => {
             <Separator />
             <InputContainer>
               <StyledTextInput
-                required={true}
+                multiline={true}
                 autoFocus={true}
-                placeholder={'Enter request'}
+                placeholder={
+                  'Introduce yourself for future clients. What’s your background and what can you do perfectly?'
+                }
                 keyboardType="email-address"
-                textContentType="emailAddress"
                 isValid={true}
                 editable={true}
                 value={value}
                 onChangeText={setValue}
-                icon={SearchIcon({})}
               />
-              {value.length != 0 ? (
-                <ErazeButton onPress={onEraze}>
-                  <RoundCloseIcon />
-                </ErazeButton>
-              ) : null}
             </InputContainer>
+            <ButtonContainer insets={insets}>
+              <Button
+                backgroundColor={Colors.normalBlue}
+                onPress={() => {
+                  onSave(value)
+                }}>
+                <ButtonText>Save</ButtonText>
+              </Button>
+            </ButtonContainer>
           </Page>
         </>
       )}
     </SafeAreaInsetsContext.Consumer>
   )
 }
+
+const ButtonText = styled(TextStyles.BodyM)`
+  color: ${Colors.white};
+`
+
+const ButtonContainer = styled.View<{ insets: EdgeInsets | undefined }>`
+  padding: ${rem(20)}px;
+  margin-bottom: ${(props) => (props.insets?.bottom ? props.insets?.bottom + 87 : 87)}px;
+  width: 100%;
+  flex: 1;
+  border-radius: ${rem(15)}px;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.1);
+`
 
 const StyledTextInput = styled(TextInput)`
   flex: 1;
@@ -67,23 +81,15 @@ const Balancer = styled.View`
 
 const InputContainer = styled.View`
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  padding-top: ${rem(15)}px;
+  padding-bottom: ${rem(15)}px;
   border-radius: ${rem(15)}px;
   background-color: ${Colors.grayForInput};
   margin: ${rem(12)}px;
-  height: ${rem(50)}px;
+  height: ${rem(185)}px;
+  justify-content: flex-start;
 `
 
-const ErazeButton = styled(TouchableOpacity).attrs({
-  hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
-})`
-  align-items: center;
-  justify-content: center;
-  width: ${rem(15)}px;
-  height: ${rem(15)}px;
-  margin-right: ${rem(20)}px;
-`
 const CloseButton = styled(TouchableOpacity).attrs({
   hitSlop: { top: rem(12), right: rem(12), bottom: rem(12), left: rem(12) },
 })`
@@ -106,9 +112,9 @@ const Header = styled.View`
 `
 
 const Page = styled.View<{ insets: EdgeInsets | null }>`
-  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  margin-top: ${(props) => props.insets?.top * 2 ?? 0}px;
   background-color: white;
   border-top-right-radius: ${rem(15)}px;
   border-top-left-radius: ${rem(15)}px;

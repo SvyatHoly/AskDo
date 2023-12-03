@@ -25,8 +25,8 @@ export const OnlineStatus: React.FC<Props> = ({ lastVisit }) => {
   }
   return (
     <HStack>
-      <DotIcon color={isOnline(lastVisit) ? Colors.normalGreen : Colors.greyInactive} />
-      <Label color={isOnline(lastVisit) ? Colors.normalGreen : Colors.greyInactive}>{renderText(lastVisit)}</Label>
+      <DotIcon color={isOnline(lastVisit) ? Colors.normalGreen : Colors.grayInactive} />
+      <Label color={isOnline(lastVisit) ? Colors.normalGreen : Colors.grayInactive}>{renderText(lastVisit)}</Label>
     </HStack>
   )
 }

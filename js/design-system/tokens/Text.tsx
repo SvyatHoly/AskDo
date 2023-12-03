@@ -83,6 +83,13 @@ export const HeadingM = styled.Text`
   letter-spacing: ${spacing(-1.82)}px;
 `
 
+export const HeadingS = styled.Text`
+  ${BoldFont};
+  color: ${Colors.darkText};
+  font-size: ${cfs(20)}px;
+  letter-spacing: ${spacing(-1.3)}px;
+`
+
 export const LabelL = styled.Text`
   ${BoldFont};
   color: ${Colors.darkText};

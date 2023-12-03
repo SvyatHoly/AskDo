@@ -100,8 +100,8 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   return (
     <Container style={style}>
       <Layout minHeight={minHeight} isMultiline={multiline}>
-        <Placeholder.Container hasIcon={icon}>
-          <Placeholder.Body style={placeholderStyle} numberOfLines={1} ellipsizeMode={'tail'}>
+        <Placeholder.Container hasIcon={!!icon} isMultiline={multiline}>
+          <Placeholder.Body style={placeholderStyle} ellipsizeMode={'tail'}>
             {placeholder}
           </Placeholder.Body>
         </Placeholder.Container>
@@ -179,18 +179,19 @@ const IconContainer = styled.View`
 `
 
 const Layout = styled.View<{ minHeight?: number; isMultiline?: boolean }>`
-  ${({ isMultiline }) => (isMultiline ? '' : 'height: ' + String(rem(54)) + 'px;')}
-  background: ${Colors.white10};
-  border-radius: ${rem(12)}px;
+  /* ${({ isMultiline }) => (isMultiline ? '' : 'height: ' + String(rem(54)) + 'px;')} */
+  /* background: ${Colors.white10}; */
+  /* border-radius: ${rem(12)}px; */
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   padding-left: ${rem(20)}px;
-  min-height: ${({ minHeight }) => rem(minHeight ?? 0)}px;
+  /* height: 100%; */
+  /* min-height: ${({ minHeight }) => rem(minHeight ?? 0)}px; */
 `
 
 const StyledRNTextInput = styled(RNTextInput)`
   flex: 1;
-  align-self: stretch;
+  /* align-self: stretch; */
   font-family: Inter;
   font-size: ${cfs(16)}px;
   font-style: normal;
@@ -204,11 +205,16 @@ const ValidatorIcon = styled.View`
 `
 
 const Placeholder = {
-  Container: styled.View<{ hasIcon: boolean }>`
+  Container: styled.View<{ hasIcon: boolean; isMultiline?: boolean }>`
     position: absolute;
-    height: 100%;
-    width: 100%;
-    top: ${rem(15)}px;
+    /* min-height: 200px; */
+    width: 90%;
+    /* height: 100%;
+    width: 100%; */
+    /* flex: 1; */
+    flex-wrap: wrap;
+    top: ${({ isMultiline }) => rem(isMultiline ? 5 : 0)}px;
+
     left: ${({ hasIcon }) => rem(hasIcon ? 55 : 30)}px;
     /* padding-top: ${rem(22)}px;
     padding-start: ${rem(22)}px;
@@ -219,10 +225,11 @@ const Placeholder = {
   Body: styled(Animated.Text)`
     color: #9d9d9d;
     font-family: Inter;
-    font-size: 16px;
+    font-size: ${cfs(16)}px;
     font-style: normal;
     font-weight: 500;
-    letter-spacing: -1.04px;
+    letter-spacing: ${cfs(-1.04)}px;
+    /* line-height: ${cfs(-150)}px; */
     opacity: 0.5;
   `,
   Required: styled.Text`

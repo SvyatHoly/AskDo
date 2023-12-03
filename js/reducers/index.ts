@@ -1,10 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import { MainReducer } from 'MainScreen/reducers'
+import { profileSlice } from 'Profile/reducers'
+
 import { api } from 'utils/api'
 
 const reducers = {
   [MainReducer.name]: MainReducer.reducer,
   [api.reducerPath]: api.reducer,
+  [profileSlice.name]: profileSlice.reducer,
 }
 
 export const rootReducer = combineReducers(reducers)
