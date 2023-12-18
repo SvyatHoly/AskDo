@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { I18nManager, Platform, ViewProps } from 'react-native'
+import { Platform, ViewProps } from 'react-native'
 import styled from 'styled-components/native'
 
 import { NAV_BAR_HEIGHT, NAV_BAR_SMALL_HEIGHT } from './hooks/useNavBarInset'
 import { useWrapSafeAreaInsets } from './hooks/useWrapSafeAreaInsets'
-import { Colors } from '../../tokens/Colors'
 import { BackIcon } from 'shared/icons/BackIcon'
 import { ThreeDotsIcon } from 'shared/icons/ThreeDotsIcon'
+import { CloseIcon } from 'shared/icons/CloseIcon'
 
 import * as TextStyles from '../../tokens/Text'
 import rem from '../../tokens/rem'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export enum LeftButtonType {
-  BACK = 'BACK',
-  CLOSE = 'CLOSE',
+  BACK,
+  CLOSE,
+  NONE,
+}
+
+export enum RightButtonType {
+  DOTS,
+  CROSS,
+  NONE,
 }
 
 export enum NavigationBarSize {
@@ -25,8 +32,10 @@ export enum NavigationBarSize {
 interface Props extends Pick<ViewProps, 'style'> {
   title?: string | React.ReactNode
   leftButtonType?: LeftButtonType | null
+  rightButtonType?: RightButtonType | null
   leftComponent?: React.ReactNode
   onLeftButtonPress?: () => void
+  onRightButtonPress?: () => void
   rightComponent?: React.ReactNode
   ignoreSafeArea?: boolean
   size?: NavigationBarSize
@@ -92,18 +101,46 @@ const NavigationBar = (props: Props) => {
   }
 
   function renderLeftButtonItem() {
-    const { onLeftButtonPress } = props
+    const { onLeftButtonPress, leftButtonType } = props
+    if (leftButtonType === LeftButtonType.NONE) {
+      return <Spacer />
+    }
+
+    let icon
+    switch (leftButtonType) {
+      case LeftButtonType.BACK:
+        icon = <BackIcon />
+        break
+      default:
+        break
+    }
+
     return (
       <HeaderButton onPress={onLeftButtonPress} onLayout={handleLeftButtonLayout}>
-        {props.leftButtonType && <BackIcon />}
+        {icon}
       </HeaderButton>
     )
   }
 
   function renderRightButtonItem() {
+    const { onRightButtonPress, rightButtonType } = props
+    if (rightButtonType === RightButtonType.NONE) {
+      return <Spacer />
+    }
+    let icon
+    switch (rightButtonType) {
+      case RightButtonType.DOTS:
+        icon = <ThreeDotsIcon />
+        break
+      case RightButtonType.CROSS:
+        icon = <CloseIcon />
+        break
+      default:
+        break
+    }
     return (
-      <HeaderButton onLayout={handleRightButtonLayout}>
-        <ThreeDotsIcon />
+      <HeaderButton onPress={onRightButtonPress} onLayout={handleRightButtonLayout}>
+        {icon}
       </HeaderButton>
     )
   }
@@ -140,6 +177,11 @@ const Title = {
 const HeaderButton = styled(TouchableOpacity)`
   align-items: center;
   justify-content: center;
+  width: ${rem(40)}px;
+  height: ${rem(40)}px;
+`
+
+const Spacer = styled.View`
   width: ${rem(40)}px;
   height: ${rem(40)}px;
 `

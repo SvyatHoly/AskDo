@@ -28,7 +28,7 @@ const Bubble = styled.View`
   flex-direction: row;
   align-items: center;
   border-radius: ${rem(15)}px;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
   padding-left: ${rem(20)}px;
   padding-right: ${rem(20)}px;
   padding-top: ${rem(10)}px;

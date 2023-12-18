@@ -58,7 +58,7 @@ const VStack = styled.View`
   flex-direction: column;
   padding: ${rem(20)}px;
   border-radius: ${rem(15)}px;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
   gap: ${rem(10)}px;
 `
 

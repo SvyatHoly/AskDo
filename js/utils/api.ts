@@ -16,6 +16,7 @@ import queryString from 'query-string'
 // import { getSuitableLocale } from 'utils/i18n/intl'
 
 import { unauthorizeIfUnauthorizedNetworkError } from './network/unauthorizedNetworkErrorInterceptor'
+import { Coordinate } from 'Profile/types'
 
 type Headers = Record<string, string>
 
@@ -190,4 +191,26 @@ export function redirect<ResultType, QueryArg>({
       return result
     },
   }
+}
+
+const myApiKey = 'AIzaSyCdER-3lZTbyqkQm3BJzQtOgFiHUFR9q_4'
+
+export function getAddressFromCoordinates({ latitude, longitude }: Coordinate) {
+  return new Promise((resolve, reject) => {
+    const url =
+      'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=' + myApiKey
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === 'OK') {
+          resolve(responseJson?.results?.[0]?.formatted_address)
+        } else {
+          reject('not found')
+        }
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }

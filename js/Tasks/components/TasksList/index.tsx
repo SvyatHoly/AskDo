@@ -45,5 +45,5 @@ export const TasksList: React.FC<Props> = () => {
 const Container = styled.View`
   width: 100%;
   flex: 1;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
 `

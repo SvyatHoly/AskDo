@@ -96,7 +96,7 @@ const CloseButton = styled(TouchableOpacity).attrs({
 const Separator = styled.View`
   height: 1px;
   width: 100%;
-  background-color: ${Colors.greySuperLight};
+  background-color: ${Colors.graySuperLight};
 `
 const Header = styled.View`
   flex-direction: row;

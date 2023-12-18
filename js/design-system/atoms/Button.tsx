@@ -35,7 +35,7 @@ const Button: React.FC<Props> = (props: Props) => {
     type = ButtonType.PRIMARY,
     size = ButtonSize.BIG,
     color = ButtonColor.WHITE,
-    backgroundColor = Colors.greyButtonBackground,
+    backgroundColor = Colors.grayButtonBackground,
     icon,
     iconPosition = IconPosition.LEFT,
     disabled = false,
@@ -122,7 +122,7 @@ const getTextColor = (props: Props) => {
     case ButtonColor.DARK_BLUE:
       return disabled ? Colors.white60 : Colors.white
     case ButtonColor.GREY:
-      return disabled ? Colors.greyButtonBackground : Colors.greyButtonBackground
+      return disabled ? Colors.grayButtonBackground : Colors.grayButtonBackground
     default:
       return Colors.red
   }

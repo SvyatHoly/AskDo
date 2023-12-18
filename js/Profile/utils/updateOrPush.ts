@@ -1,6 +1,4 @@
-import { Experience } from '../types'
-
-export const updateOrPush = (id: string, newItem: Experience, array: Experience[]) => {
+export const updateOrPush = (id: string, newItem: any, array: any[]) => {
   const index = array.findIndex((item) => item.id === id)
 
   if (index !== -1) {

@@ -63,7 +63,7 @@ export const Description: React.FC<Props> = ({ label, value, placeholder, onPres
 
 const VStack = styled.View`
   flex-direction: column;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
   border-radius: ${rem(15)}px;
   padding: ${rem(20)}px;
   gap: ${rem(10)}px;

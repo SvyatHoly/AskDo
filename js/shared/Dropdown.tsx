@@ -7,24 +7,37 @@ import { Colors, TextStyles, rem } from 'design-system'
 
 import { useKeyboard } from 'shared/hooks/useKeyboard'
 import { useReduceMotion } from 'shared/hooks/useReduceMotion'
-import { StringsDictionary } from 'types'
 import { ChevronIcon } from './icons/ChevronIcon'
 
 import { DropdownListItem } from './DropdownListItem'
 
+interface Item {
+  id: string
+  name: string
+}
 interface Props {
   title: string
-  dataSource: string[] | StringsDictionary
+  dataSource: Item[]
   initialItem?: string
-  didSelectItem: (item: string) => void
+  didSelectItem: (id: string) => void
   didExpandDropdown?: () => void
+  isSingleMode?: boolean
 }
 
-export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didSelectItem, didExpandDropdown }) => {
+export const Dropdown: React.FC<Props> = ({
+  title,
+  dataSource,
+  initialItem,
+  didSelectItem,
+  didExpandDropdown,
+  isSingleMode = false,
+}) => {
   const [expanded, setExpanded] = useState(false)
-  const [selectedItemsMap, setSelectedItemsMap] = useState<{ [fieldName: string]: boolean }>({})
+  const [selectedItemsMap, setSelectedItemsMap] = useState<{ [fieldName: string]: boolean }>({
+    [initialItem ?? 0]: true,
+  })
   const [isKeyboardVisible] = useKeyboard()
-  const items = useMemo(() => (Array.isArray(dataSource) ? dataSource : Object.values(dataSource)), [dataSource])
+  const items = useMemo(() => dataSource, [dataSource])
   const [height, setHeight] = useState(1)
   const [itemsLayoutCounter, setItemsLayoutCounter] = useState(0)
   const [flashListUpdater, setFlashListUpdater] = useState(false)
@@ -45,10 +58,18 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
 
   const expandedHeight = height + rem(45)
 
-  const rowRenderer: FlashListProps<string>['renderItem'] = ({ item }) => {
-    const selected = selectedItemsMap[item]
+  const rowRenderer: FlashListProps<Item>['renderItem'] = ({ item }) => {
+    const selected = selectedItemsMap[item.id]
+    console.log('🚀 ~ file: Dropdown.tsx:148 ~ item:', item)
+
+    console.log('🚀 ~ file: Dropdown.tsx:58 ~ selected:', selected)
     return (
-      <DropdownListItem onLayout={handleLayout} selected={selected} value={item} onPress={() => handlePress(item)} />
+      <DropdownListItem
+        onLayout={handleLayout}
+        selected={selected}
+        value={item.name}
+        onPress={() => handlePress(item.id)}
+      />
     )
   }
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -56,14 +77,10 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
       return
     }
     setItemsLayoutCounter(items.length)
-    console.log(
-      '🚀 ~ file: Dropdown.tsx:62 ~ handleLayout ~ event.nativeEvent.layout.height:',
-      event.nativeEvent.layout.height
-    )
 
     setHeight(items.length * event.nativeEvent.layout.height)
   }
-  const keyExtractor: FlashListProps<string>['keyExtractor'] = (item) => item
+  const keyExtractor: FlashListProps<string>['keyExtractor'] = (item) => item.id
 
   const isAnyValueTrue = (obj: { [s: string]: boolean }) => {
     return Object.values(obj).some((value) => value === true)
@@ -103,7 +120,7 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
             renderItem={rowRenderer}
             keyExtractor={keyExtractor}
             initialScrollIndex={0}
-            // extraData={flashListUpdater}
+            extraData={flashListUpdater}
           />
         </>
       ) : (
@@ -113,16 +130,22 @@ export const Dropdown: React.FC<Props> = ({ title, dataSource, initialItem, didS
   )
 
   function handlePress(item: string) {
-    let returnedItem = item
-    if (!Array.isArray(dataSource)) {
-      returnedItem = Object.keys(dataSource).find((key) => dataSource[key] === item) ?? initialItem ?? ''
+    if (isSingleMode && selectedItemsMap[item]) {
+      return
     }
-    didSelectItem(returnedItem)
+    didSelectItem(item)
 
-    setSelectedItemsMap({
-      ...selectedItemsMap,
-      [item]: !selectedItemsMap[item],
-    })
+    if (!isSingleMode) {
+      setSelectedItemsMap({
+        ...selectedItemsMap,
+        [item]: !selectedItemsMap[item],
+      })
+    } else {
+      setSelectedItemsMap({
+        [item]: !selectedItemsMap[item],
+      })
+    }
+
     setFlashListUpdater(!flashListUpdater)
   }
 
@@ -144,7 +167,7 @@ const DropdownContainer = styled.View<{ expanded: boolean; height: number; hasSe
   border-width: 1px;
   border-color: ${(props) => (props.hasSelectedItems && !props.expanded ? Colors.normalBlue : Colors.transparent)};
   background-color: ${(props) =>
-    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.greyButtonBackground};
+    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.grayButtonBackground};
   overflow: hidden;
   width: 100%;
 `

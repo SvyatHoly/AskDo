@@ -84,7 +84,7 @@ const ButtonContainer = styled.View<{ insets: EdgeInsets | undefined }>`
   padding: ${rem(20)}px;
   margin-bottom: ${(props) => (props.insets?.bottom ? props.insets?.bottom + 87 : 87)}px;
   width: 100%;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
   border-radius: ${rem(15)}px;
   box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.1);
 `

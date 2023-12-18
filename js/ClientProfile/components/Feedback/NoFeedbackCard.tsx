@@ -18,7 +18,7 @@ const VStack = styled.View`
   justify-content: center;
   height: ${rem(147)}px;
   border-radius: ${rem(15)}px;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
 `
 
 const GrayText = styled(TextStyles.BodyM)`

@@ -35,10 +35,10 @@ class Colors {
   static get grayForInput() {
     return 'rgba(243, 243, 243, 1)'
   }
-  static get greyButtonBackground() {
+  static get grayButtonBackground() {
     return 'rgba(251, 251, 251, 1)'
   }
-  static get greySuperLight() {
+  static get graySuperLight() {
     return 'rgba(216, 216, 216, 1)'
   }
   static get grayInactive() {

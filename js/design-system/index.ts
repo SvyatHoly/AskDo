@@ -6,7 +6,7 @@ import rem from './tokens/rem'
 import Icon from './tokens/Icon'
 import { IconFilling, IconPosition, IconSize, IconType } from './tokens/icons/consts'
 import { ButtonColor, ButtonLoadingType, ButtonSize, ButtonType } from './atoms/consts'
-import NavigationBar, { LeftButtonType, NavigationBarSize } from './molecules/NavigationBar'
+import NavigationBar, { LeftButtonType, RightButtonType, NavigationBarSize } from './molecules/NavigationBar'
 
 export {
   cfs,
@@ -29,4 +29,5 @@ export {
   NavigationBar,
   LeftButtonType,
   NavigationBarSize,
+  RightButtonType,
 }

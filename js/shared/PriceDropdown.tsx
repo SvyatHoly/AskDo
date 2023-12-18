@@ -136,7 +136,7 @@ const DropdownContainer = styled.View<{ expanded: boolean; height: number; hasSe
   border-width: 1px;
   border-color: ${(props) => (props.hasSelectedItems && !props.expanded ? Colors.normalBlue : Colors.transparent)};
   background-color: ${(props) =>
-    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.greyButtonBackground};
+    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.grayButtonBackground};
   overflow: hidden;
   width: 100%;
 `

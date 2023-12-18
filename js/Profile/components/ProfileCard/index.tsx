@@ -42,6 +42,6 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: ${rem(15)}px;
-  background-color: ${Colors.greyButtonBackground};
+  background-color: ${Colors.grayButtonBackground};
   padding: ${rem(12)}px;
 `

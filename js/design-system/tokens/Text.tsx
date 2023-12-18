@@ -173,6 +173,14 @@ export const LabelM = styled.Text`
   letter-spacing: ${spacing(-1.04)}px;
 `
 
+export const LabelS = styled.Text`
+  ${RegularFont};
+
+  color: ${Colors.darkText};
+  font-size: ${cfs(14)}px;
+  letter-spacing: ${spacing(-0.63)}px;
+`
+
 export const CalloutM = styled.Text`
   ${BoldFont};
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { LayoutAnimation, LayoutChangeEvent, TouchableOpacity } from 'react-native'
+import { LayoutAnimation, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { Colors, TextStyles, rem } from 'design-system'
 
 import { useKeyboard } from 'shared/hooks/useKeyboard'
 import { useReduceMotion } from 'shared/hooks/useReduceMotion'
-import { ChevronIcon } from './icons/ChevronIcon'
-import { TextInput } from './TextInput'
 import { PlusIcon } from 'shared/icons/PlusIcon'
 import { ThreeDotsIcon } from 'shared/icons/ThreeDotsIcon'
+import FastImage from 'react-native-fast-image'
+import { BodyS } from 'design-system/tokens/Text'
 
 interface Props {
   title: string
@@ -20,8 +20,9 @@ interface Props {
 
 interface Point {
   id: string
-  title: string
+  name: string
   description: string
+  photoURLs?: string[]
 }
 
 export const PointsList: React.FC<Props> = ({ title, didSelectItem, didExpandDropdown, onAdd, points = [] }) => {
@@ -59,15 +60,32 @@ export const PointsList: React.FC<Props> = ({ title, didSelectItem, didExpandDro
     return (
       <HStack key={point.id}>
         <VStack>
-          <Body>{point.title}</Body>
+          <Body>{point.name}</Body>
           <GrayBody>{point.description}</GrayBody>
         </VStack>
 
         <Button onPress={() => didSelectItem(point.id)}>
-          <ThreeDotsIcon />
+          {point.photoURLs ? renderPhotos(point.photoURLs) : <ThreeDotsIcon />}
         </Button>
       </HStack>
     )
+  }
+
+  const renderPhotos = (photoUrls: string[]) => {
+    let arr = []
+    let indexShift = 0
+    if (photoUrls.length > 3) {
+      indexShift = 2
+      arr.push(<BodyAbsolute>+ {photoUrls.length - 3}</BodyAbsolute>)
+    }
+    photoUrls.forEach((el, index) => {
+      if (index > 2) {
+        return
+      }
+      arr.push(<StyledFastImage source={{ uri: el }} index={indexShift + index} />)
+    })
+
+    return <>{arr}</>
   }
 
   return (
@@ -91,6 +109,15 @@ export const PointsList: React.FC<Props> = ({ title, didSelectItem, didExpandDro
   }
 }
 
+const StyledFastImage = styled(FastImage)<{ index: number }>`
+  position: absolute;
+  width: ${rem(34)}px;
+  height: ${rem(34)}px;
+  right: ${(props) => rem(props.index * 15)}px;
+  border-radius: ${rem(8)}px;
+  border-width: ${rem(2)}px;
+  border-color: ${Colors.white};
+`
 const HStack = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -99,6 +126,7 @@ const HStack = styled.View`
 
 const VStack = styled.View`
   flex-direction: column;
+  flex-shrink: 1;
 `
 
 const DropdownContainer = styled.View<{ expanded: boolean; hasSelectedItems: boolean }>`
@@ -107,7 +135,7 @@ const DropdownContainer = styled.View<{ expanded: boolean; hasSelectedItems: boo
   border-width: 1px;
   border-color: ${(props) => (props.hasSelectedItems && !props.expanded ? Colors.normalBlue : Colors.transparent)};
   background-color: ${(props) =>
-    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.greyButtonBackground};
+    props.hasSelectedItems && !props.expanded ? Colors.lightBlue : Colors.grayButtonBackground};
   overflow: hidden;
   width: 100%;
   gap: ${rem(15)}px;
@@ -115,6 +143,9 @@ const DropdownContainer = styled.View<{ expanded: boolean; hasSelectedItems: boo
 
 const HeaderTitle = styled(TextStyles.LabelL)``
 
+const BodyAbsolute = styled(TextStyles.BodyS)`
+  position: absolute;
+`
 const Body = styled(TextStyles.BodyS)``
 const GrayBody = styled(TextStyles.BodyS)`
   color: ${Colors.grayInactive};

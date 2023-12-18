@@ -76,7 +76,7 @@ const Layout = styled.View`
   gap: ${rem(37)}px;
   border-top-right-radius: ${rem(15)}px;
   border-top-left-radius: ${rem(15)}px;
-  border: 1px solid ${Colors.greySuperLight};
+  border: 1px solid ${Colors.graySuperLight};
   padding: ${rem(10)}px;
   background-color: ${Colors.white};
 `

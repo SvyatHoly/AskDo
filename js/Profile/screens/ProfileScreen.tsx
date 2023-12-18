@@ -5,37 +5,51 @@ import { Colors, NavigationBar, TextStyles, rem } from 'design-system'
 import { Description } from 'shared/Description'
 import { ProfileCard } from '../components/ProfileCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { profileSelector, setDescription, setWork, setEducation, setAchieves, deleteById } from '../reducers'
+import {
+  profileSelector,
+  setDescription,
+  setWork,
+  setEducation,
+  setAchieves,
+  deleteById,
+  setOffice,
+  setRideOut,
+  setIsRemote,
+  setServices,
+  setAlbum,
+} from '../reducers/ProfileDetails'
 import { PopupPresenter, PopupType } from 'shared/PopupPresenter'
 import { DescriptionModal } from '../components/modals/DescriptionModal'
-import { PointsList } from 'shared/PointsList'
 import { ScrollView } from 'react-native'
 import { ExperienceModal } from '../components/modals/ExperienceModal'
 import { IntermediateModal } from '../components/modals/IntermediateModal'
+import { LocationModal } from '../components/modals/LocationModal'
 
-import { transformExperiences } from 'Profile/utils/transformExperiences'
-import { Experience, ExperienceType } from 'Profile/types'
+import { Album, Location, ModalType } from '../types'
+import { ExperienceView } from '../components/ExperienceView'
+import { WorkAreaView } from '../components/WorkArea'
 
-enum ModalType {
-  description,
-  work,
-  education,
-  achieves,
-  intermediate,
+import { Experience, ExperienceType, ServiceCategory } from 'Profile/types'
+import { ServicesView } from 'Profile/components/Services'
+import { ServiceModal } from 'Profile/components/modals/ServiceModal'
+import { AlbumsModal } from 'Profile/components/modals/AlbumsModal'
+import { AlbumsView } from 'Profile/components/AlbumsView'
+
+interface Selected {
+  type: ModalType
+  value: ServiceCategory | Experience | Location | Album
 }
 
 export const ProfileScreen: React.FC = () => {
-  const { description, work, education, achieves } = useSelector(profileSelector)
+  const { description, work, education, achieves, office, rideOut, isWorkRemotely, services, albums } =
+    useSelector(profileSelector)
   const [modalType, setModalType] = useState(ModalType.description)
-  const [currentExperience, setCurrentExperience] = useState<Experience | null | undefined>(null)
+  const [currentItemForEdit, setCurrentItemForEdit] = useState<Selected | null>(null)
 
   const ref = useRef(null)
   const dispatch = useDispatch()
 
   const openModal = (type: ModalType) => {
-    console.log(' openModal ~ type:', type)
-    console.log(' currentExperience:', currentExperience)
-
     setModalType(type)
     ref.current?.present()
   }
@@ -52,133 +66,47 @@ export const ProfileScreen: React.FC = () => {
         return ExperienceModal
       case ModalType.intermediate:
         return IntermediateModal
+      case ModalType.office:
+        return LocationModal
+      case ModalType.rideOut:
+        return LocationModal
+      case ModalType.service:
+        return ServiceModal
+      case ModalType.albums:
+        return AlbumsModal
       default:
         return ExperienceModal
     }
   }
 
   const handleDidSelectItem = (type: ModalType, id: string) => {
-    let itemToEdit
-    switch (type) {
-      case ModalType.work:
-        itemToEdit = work.find((el) => el.id === id)
-        break
-      case ModalType.education:
-        itemToEdit = education.find((el) => el.id === id)
-        break
-      case ModalType.achieves:
-        itemToEdit = achieves.find((el) => el.id === id)
-        break
-      default:
-        // Handle other cases or provide a default value
-        break
+    const typeToExperienceMap: Record<ModalType, any[]> = {
+      [ModalType.work]: work,
+      [ModalType.education]: education,
+      [ModalType.achieves]: achieves,
+      [ModalType.office]: office,
+      [ModalType.rideOut]: rideOut,
+      [ModalType.service]: services,
+      [ModalType.albums]: albums,
+      [ModalType.description]: [],
+      [ModalType.intermediate]: [],
     }
 
-    setCurrentExperience(itemToEdit)
+    const itemToEdit = typeToExperienceMap[type]?.find((el) => el.id === id)
+    let current = { type: type, value: itemToEdit }
+
+    setCurrentItemForEdit(current)
     openModal(ModalType.intermediate)
   }
 
   const onEdit = () => {
     ref.current?.close()
 
-    switch (currentExperience?.type) {
-      case ExperienceType.work:
-        setTimeout(() => {
-          openModal(ModalType.work)
-        }, 500)
-        break
-      case ExperienceType.education:
-        setTimeout(() => {
-          openModal(ModalType.education)
-        }, 500)
-        break
-      case ExperienceType.certfication:
-        setTimeout(() => {
-          openModal(ModalType.achieves)
-        }, 500)
-        break
-    }
+    setTimeout(() => {
+      openModal(currentItemForEdit?.type)
+    }, 500)
   }
 
-  const getForwardProps = () => {
-    switch (modalType) {
-      case ModalType.description:
-        return {
-          label: 'Description',
-          text: description,
-          onSave: (value: string) => {
-            dispatch(setDescription(value))
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-          onClose: () => {
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-        }
-      case ModalType.work:
-        return {
-          label: 'Experience',
-          type: ExperienceType.work,
-          data: currentExperience,
-          onSave: (value: Experience) => {
-            setCurrentExperience(null)
-            dispatch(setWork(value))
-            ref.current?.close()
-          },
-          onClose: () => {
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-        }
-      case ModalType.education:
-        return {
-          label: 'Education',
-          type: ExperienceType.education,
-          data: currentExperience,
-          onSave: (value: Experience) => {
-            setCurrentExperience(null)
-            dispatch(setEducation(value))
-            ref.current?.close()
-          },
-          onClose: () => {
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-        }
-      case ModalType.achieves:
-        return {
-          label: 'Achieves, certification',
-          type: ExperienceType.certfication,
-          data: currentExperience,
-          onSave: (value: Experience) => {
-            setCurrentExperience(null)
-            dispatch(setAchieves(value))
-            ref.current?.close()
-          },
-          onClose: () => {
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-        }
-      case ModalType.intermediate:
-        return {
-          label: 'Achieves, certification',
-          onEdit: onEdit,
-          onDelete: () => {
-            dispatch(deleteById(currentExperience?.id ?? ''))
-
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-          onClose: () => {
-            setCurrentExperience(null)
-            ref.current?.close()
-          },
-        }
-    }
-    return currentExperience
-  }
   return (
     <SafeAreaInsetsContext.Consumer>
       {(insets) => (
@@ -209,27 +137,29 @@ export const ProfileScreen: React.FC = () => {
               />
             </VStack>
             <Space />
-            <VStack>
-              <Heading>Experience & Education</Heading>
-              <PointsList
-                title={'Experience'}
-                points={transformExperiences(work)}
-                didSelectItem={(id) => handleDidSelectItem(ModalType.work, id)}
-                onAdd={() => openModal(ModalType.work)}
-              />
-              <PointsList
-                title={'Education'}
-                points={transformExperiences(education)}
-                didSelectItem={(id) => handleDidSelectItem(ModalType.education, id)}
-                onAdd={() => openModal(ModalType.education)}
-              />
-              <PointsList
-                title={'Achieves, certification'}
-                points={transformExperiences(achieves)}
-                didSelectItem={(id) => handleDidSelectItem(ModalType.achieves, id)}
-                onAdd={() => openModal(ModalType.achieves)}
-              />
-            </VStack>
+            <ExperienceView
+              didSelectItem={handleDidSelectItem}
+              onAdd={openModal}
+              work={work}
+              education={education}
+              achieves={achieves}
+            />
+            <Space />
+
+            <WorkAreaView
+              didSelectItem={handleDidSelectItem}
+              onAdd={openModal}
+              officeLocation={office}
+              rideOutArea={rideOut}
+              isRemoteWork={isWorkRemotely}
+              onRemoteWorkToggle={() => dispatch(setIsRemote(!isWorkRemotely))}
+            />
+            <Space />
+
+            <ServicesView didSelectItem={handleDidSelectItem} onAdd={openModal} services={services} />
+            <Space />
+
+            <AlbumsView didSelectItem={handleDidSelectItem} onAdd={openModal} albums={albums} />
           </ScrollView>
           <PopupPresenter
             ref={ref}
@@ -241,6 +171,138 @@ export const ProfileScreen: React.FC = () => {
       )}
     </SafeAreaInsetsContext.Consumer>
   )
+
+  function getForwardProps() {
+    switch (modalType) {
+      case ModalType.description:
+        return {
+          label: 'Description',
+          text: description,
+          onSave: (value: string) => {
+            dispatch(setDescription(value))
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.work:
+        return {
+          label: 'Experience',
+          type: ExperienceType.work,
+          data: currentItemForEdit?.value,
+          onSave: (value: Experience) => {
+            setCurrentItemForEdit(null)
+            dispatch(setWork(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.education:
+        return {
+          label: 'Education',
+          type: ExperienceType.education,
+          data: currentItemForEdit?.value,
+          onSave: (value: Experience) => {
+            setCurrentItemForEdit(null)
+            dispatch(setEducation(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.achieves:
+        return {
+          label: 'Achieves, certification',
+          type: ExperienceType.certfication,
+          data: currentItemForEdit?.value,
+          onSave: (value: Experience) => {
+            setCurrentItemForEdit(null)
+            dispatch(setAchieves(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.intermediate:
+        return {
+          label: 'Achieves, certification',
+          onEdit: onEdit,
+          onDelete: () => {
+            dispatch(deleteById(currentItemForEdit?.value.id ?? ''))
+
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.rideOut:
+        return {
+          location: currentItemForEdit?.value,
+          onSave: (value: Location) => {
+            setCurrentItemForEdit(null)
+            dispatch(setRideOut(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.office:
+        return {
+          location: currentItemForEdit?.value,
+          onSave: (value: Location) => {
+            setCurrentItemForEdit(null)
+            dispatch(setOffice(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.service:
+        return {
+          service: currentItemForEdit?.value,
+          onSave: (value: ServiceCategory) => {
+            setCurrentItemForEdit(null)
+            dispatch(setServices(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+      case ModalType.albums:
+        return {
+          album: currentItemForEdit?.value,
+          services: services,
+          onSave: (value: Album) => {
+            setCurrentItemForEdit(null)
+            dispatch(setAlbum(value))
+            ref.current?.close()
+          },
+          onClose: () => {
+            setCurrentItemForEdit(null)
+            ref.current?.close()
+          },
+        }
+    }
+  }
 }
 
 const VStack = styled.View`
