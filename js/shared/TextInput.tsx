@@ -26,6 +26,7 @@ interface TextInputProps extends Pick<ViewProps, 'style'>, Omit<RNTextInputProps
   minHeight?: number
   validationErrorStyle?: ValidationErrorStyle
   icon?: ReactNode
+  isClearButtonMode?: boolean
 }
 
 export const TextInput: React.FC<TextInputProps> = (props) => {
@@ -44,6 +45,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     onChangeText,
     onFocus,
     onBlur,
+    isClearButtonMode = false,
     ...textInputProps
   } = props
 
@@ -117,6 +119,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
           onBlur={handleBlur}
           numberOfLines={multiline === true ? undefined : 1}
           multiline={multiline}
+          clearButtonMode={isClearButtonMode ? 'while-editing' : 'never'}
         />
         {showValidationUI && renderInlineValidationUI()}
       </Layout>

@@ -32,6 +32,15 @@ class Colors {
   static get lightBlue() {
     return 'rgba(244, 252, 255, 1)'
   }
+
+  static get grayDark() {
+    return 'rgba(65, 65, 65, 1)'
+  }
+
+  static get grayDark50() {
+    return 'rgba(65, 65, 65, 0.5)'
+  }
+
   static get grayForInput() {
     return 'rgba(243, 243, 243, 1)'
   }

@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
-import { Colors, LeftButtonType, NavigationBar, RightButtonType, TextStyles, rem, Button } from 'design-system'
+import {
+  Colors,
+  LeftButtonType,
+  NavigationBar,
+  RightButtonType,
+  TextStyles,
+  rem,
+  Button,
+  ButtonColor,
+} from 'design-system'
 import { ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
@@ -74,7 +83,7 @@ export const AlbumsModal: React.FC<Props> = ({ onClose, onSave, album, services 
               <Space />
             </StyledScrollView>
             <ButtonContainer insets={insets}>
-              <Button backgroundColor={Colors.normalBlue} onPress={handleSave}>
+              <Button color={ButtonColor.GREY} onPress={handleSave}>
                 <ButtonText>Save</ButtonText>
               </Button>
             </ButtonContainer>

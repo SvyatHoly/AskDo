@@ -3,7 +3,7 @@ import { Search } from './icons/Search'
 
 import { BodyM } from 'design-system/tokens/Text'
 import { Button } from 'design-system/atoms/Button'
-import { ButtonSize, ButtonType } from 'design-system/atoms/consts'
+import { ButtonColor, ButtonSize, ButtonType } from 'design-system/atoms/consts'
 import styled from 'styled-components/native'
 import React from 'react'
 import { Colors, rem } from 'design-system'
@@ -20,6 +20,7 @@ export const ControlBar: React.FC<Props> = ({ onClick }) => {
         onPress={() => onClick(MODAL_TYPE.find)}
         type={ButtonType.PRIMARY}
         icon={Search({})}
+        backgroundColor={Colors.grayButtonBackground}
       />
 
       <IconButton
@@ -27,12 +28,21 @@ export const ControlBar: React.FC<Props> = ({ onClick }) => {
         onPress={() => onClick(MODAL_TYPE.filter)}
         type={ButtonType.PRIMARY}
         icon={Filter({})}
+        backgroundColor={Colors.grayButtonBackground}
       />
 
-      <TextButton size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
+      <TextButton
+        size={ButtonSize.BIG}
+        onPress={() => {}}
+        type={ButtonType.PRIMARY}
+        backgroundColor={Colors.grayButtonBackground}>
         <Text>Price</Text>
       </TextButton>
-      <TextButton2 size={ButtonSize.BIG} onPress={() => {}} type={ButtonType.PRIMARY}>
+      <TextButton2
+        size={ButtonSize.BIG}
+        onPress={() => {}}
+        type={ButtonType.PRIMARY}
+        backgroundColor={Colors.grayButtonBackground}>
         <Text>Meeting place</Text>
       </TextButton2>
     </Container>

@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { TextStyles, rem, Colors, Button, NavigationBar, LeftButtonType, RightButtonType } from 'design-system'
+import {
+  TextStyles,
+  rem,
+  Colors,
+  Button,
+  NavigationBar,
+  LeftButtonType,
+  RightButtonType,
+  ButtonColor,
+} from 'design-system'
 import { BubblePicker, Item } from 'shared/BubblePicker'
 import { servicesSelector } from 'Profile/reducers/Services'
 import { useSelector } from 'react-redux'
@@ -113,7 +122,7 @@ export const ServiceModal: React.FC<Props> = ({ onClose, onSave, service }) => {
 
               <ButtonContainer insets={insets}>
                 {state === State.second && (
-                  <Button backgroundColor={Colors.normalBlue} onPress={handleSave}>
+                  <Button color={ButtonColor.GREY} onPress={handleSave}>
                     <ButtonText>Save</ButtonText>
                   </Button>
                 )}

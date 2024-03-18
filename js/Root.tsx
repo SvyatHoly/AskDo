@@ -6,8 +6,12 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { storeWrapper } from 'utils/store'
 import { Navigation } from 'navigation'
 import { NavigationEntryPoint } from 'navigation/NavigationContainer'
-import { screens, MODULE_NAME } from 'MainScreen/constants'
+import { screens as mainScreens, MODULE_NAME as MainScreenModuleName } from 'MainScreen/constants'
+import { screens as loginScreens, MODULE_NAME as LoginScreenModuleName } from 'Login/constants'
+import { screens as createProfileScreens, MODULE_NAME as CreateProfileModuleName } from 'CreateProfile/constants'
+
 import { MODULE_NAME as ClientProfileModuleName } from 'ClientProfile/constants'
+import { Stack } from 'navigation/Stack'
 // Function which is called after the navigation container and all its children finish mounting for the first time.
 const onReady = () => {
   Navigation.onNavigationReady()
@@ -22,7 +26,7 @@ const Theme = {
 }
 
 const getInitialRouteName = () => {
-  return screens.MainScreen
+  return loginScreens.LoginScreen
 }
 
 export const Root = storeWrapper(() => {
@@ -39,7 +43,7 @@ export const Root = storeWrapper(() => {
         </>
       */
           additionalScreens={undefined}
-          moduleNames={[MODULE_NAME, ClientProfileModuleName]}
+          moduleNames={[MainScreenModuleName, LoginScreenModuleName, ClientProfileModuleName, CreateProfileModuleName]}
         />
       </NavigationContainer>
     </GestureRootView>

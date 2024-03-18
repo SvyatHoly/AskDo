@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ViewProps } from 'react-native'
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
 
 import { NAV_BAR_HEIGHT, NAV_BAR_SMALL_HEIGHT } from './hooks/useNavBarInset'
 import { useWrapSafeAreaInsets } from './hooks/useWrapSafeAreaInsets'
@@ -11,6 +11,7 @@ import { CloseIcon } from 'shared/icons/CloseIcon'
 import * as TextStyles from '../../tokens/Text'
 import rem from '../../tokens/rem'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Colors } from 'design-system'
 
 export enum LeftButtonType {
   BACK,
@@ -39,6 +40,7 @@ interface Props extends Pick<ViewProps, 'style'> {
   rightComponent?: React.ReactNode
   ignoreSafeArea?: boolean
   size?: NavigationBarSize
+  withBorder?: boolean
   testID?: string
 }
 
@@ -65,20 +67,24 @@ const NavigationBar = (props: Props) => {
   }, [leftButtonWidth, rightButtonWidth, titleMargin])
 
   return (
-    <Container
-      height={props.size == NavigationBarSize.SMALL ? NAV_BAR_SMALL_HEIGHT : NAV_BAR_HEIGHT}
-      style={[props.style, { marginTop: ignoreSafeArea ? 0 : insets.top }]}
-      testID={props.testID}>
-      {renderLeftButtonItem()}
-      {/* <NavBarButton.Container
+    <>
+      <Container
+        height={props.size == NavigationBarSize.SMALL ? NAV_BAR_SMALL_HEIGHT : NAV_BAR_HEIGHT}
+        style={[props.style, { marginTop: ignoreSafeArea ? 0 : insets.top }]}
+        testID={props.testID}
+        withBorder={props.withBorder ?? false}>
+        {renderLeftButtonItem()}
+        {/* <NavBarButton.Container
         testID={`navigationBarBackButton-${props.leftButtonType}`}
         onLayout={handleLeftButtonLayout}>
         {renderLeftButtonItem()}
       </NavBarButton.Container> */}
-      <Title.Container titleMargin={titleMargin}>{renderTitle()}</Title.Container>
-      {renderRightButtonItem()}
-      {/* <NavBarButton.Container onLayout={handleRightButtonLayout}>{renderRightButtonItem()}</NavBarButton.Container> */}
-    </Container>
+        <Title.Container titleMargin={titleMargin}>{renderTitle()}</Title.Container>
+        {renderRightButtonItem()}
+        {/* <NavBarButton.Container onLayout={handleRightButtonLayout}>{renderRightButtonItem()}</NavBarButton.Container> */}
+      </Container>
+      {/* <Separator /> */}
+    </>
   )
 
   function renderTitle() {
@@ -146,12 +152,19 @@ const NavigationBar = (props: Props) => {
   }
 }
 
-const Container = styled.View<{ height: number }>`
+const Container = styled.View<{ height: number; withBorder: boolean }>`
   height: ${({ height }) => height}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding-horizontal: ${rem(12)}px;
+  ${({ withBorder }) =>
+    withBorder
+      ? css`
+          border-bottom-color: ${Colors.grayButtonBackground};
+          border-bottom-width: 1px;
+        `
+      : null}
 `
 
 const Title = {

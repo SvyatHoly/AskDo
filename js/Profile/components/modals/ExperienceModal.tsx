@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { TextStyles, rem, Colors, Button } from 'design-system'
+import { TextStyles, rem, Colors, Button, ButtonColor } from 'design-system'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 import { CloseIcon } from 'shared/icons/CloseIcon'
@@ -10,7 +10,7 @@ import { TextInput } from 'shared/TextInput'
 import { Switch } from 'shared/Switch'
 
 import { ScrollView } from 'react-native'
-import { AddPhoto } from '../AddPhoto'
+import { AddPhoto } from 'shared/AddPhoto'
 import { Experience, ExperienceType } from 'Profile/types'
 import moment from 'moment'
 
@@ -139,7 +139,7 @@ export const ExperienceModal: React.FC<Props> = ({ label, type, text, data, onCl
             </StyledScrollView>
           </Container>
           <ButtonContainer insets={insets}>
-            <Button backgroundColor={Colors.normalBlue} onPress={handleSave}>
+            <Button color={ButtonColor.GREY} onPress={handleSave}>
               <ButtonText>Save</ButtonText>
             </Button>
           </ButtonContainer>

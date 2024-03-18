@@ -13,6 +13,7 @@ export interface Props extends Pick<ViewProps, 'style'> {
   children?: React.ReactNode
   type?: ButtonType
   size?: ButtonSize
+  isShadow?: boolean
   color?: ButtonColor
   backgroundColor?: string
   icon?: React.ReactNode
@@ -25,7 +26,7 @@ export interface Props extends Pick<ViewProps, 'style'> {
 }
 
 export interface Theme {
-  button: Pick<Props, 'type' | 'size' | 'color' | 'disabled' | 'backgroundColor'>
+  button: Pick<Props, 'type' | 'size' | 'color' | 'disabled' | 'backgroundColor' | 'isShadow'>
 }
 
 const Button: React.FC<Props> = (props: Props) => {
@@ -34,8 +35,9 @@ const Button: React.FC<Props> = (props: Props) => {
     children,
     type = ButtonType.PRIMARY,
     size = ButtonSize.BIG,
-    color = ButtonColor.WHITE,
-    backgroundColor = Colors.grayButtonBackground,
+    isShadow = false,
+    color = ButtonColor.BLUE,
+    backgroundColor,
     icon,
     iconPosition = IconPosition.LEFT,
     disabled = false,
@@ -61,7 +63,7 @@ const Button: React.FC<Props> = (props: Props) => {
 
   const loadingSize = size === ButtonSize.SMALL ? rem(20) : rem(30)
   return (
-    <ThemeProvider theme={{ button: { testID, type, size, color, disabled, backgroundColor } }}>
+    <ThemeProvider theme={{ button: { testID, type, size, color, disabled, backgroundColor, isShadow } }}>
       <ButtonContainer
         style={style}
         testID={testID}
@@ -99,28 +101,14 @@ const Button: React.FC<Props> = (props: Props) => {
 
     return 1
   }
-
-  //   function getLoaderJson() {
-  //     if (color === ButtonColor.WHITE) {
-  //       return require('../../res/animations/loading_dark.json') as string
-  //     }
-
-  //     return require('../../res/animations/loading.json') as string
-  //   }
 }
 
 const getTextColor = (props: Props) => {
   const { color, type, disabled } = props
 
   switch (color) {
-    case ButtonColor.WHITE:
-      if (type === ButtonType.PRIMARY) {
-        return Colors.darkBlue
-      }
-
-      return disabled ? Colors.white60 : Colors.white
-    case ButtonColor.DARK_BLUE:
-      return disabled ? Colors.white60 : Colors.white
+    case ButtonColor.BLUE:
+      return disabled ? Colors.darkBlue60 : Colors.darkBlue
     case ButtonColor.GREY:
       return disabled ? Colors.grayButtonBackground : Colors.grayButtonBackground
     default:
@@ -128,26 +116,23 @@ const getTextColor = (props: Props) => {
   }
 }
 
-const getBackgroundColor = (props: Pick<Props, 'type' | 'size' | 'color' | 'disabled'>) => {
-  const { color, type, disabled } = props
-
+const getBackgroundColor = (props: Pick<Props, 'type' | 'size' | 'color' | 'disabled' | 'backgroundColor'>) => {
+  const { color, type, disabled, backgroundColor } = props
+  if (backgroundColor) {
+    return backgroundColor
+  }
   switch (color) {
-    case ButtonColor.WHITE:
+    case ButtonColor.BLUE:
       if (type === ButtonType.SECONDARY) {
-        return disabled ? Colors.white10 : Colors.white30
+        return disabled ? Colors.lightBlue : Colors.normalBlue
       }
+      return disabled ? Colors.lightBlue : Colors.normalBlue
 
-      return disabled ? Colors.white30 : Colors.white
-    case ButtonColor.DARK_BLUE:
+    case ButtonColor.GREY:
       if (type === ButtonType.SECONDARY) {
-        return Colors.darkBlue30
+        return disabled ? Colors.grayDark50 : Colors.grayDark
       }
-
-      if (disabled) {
-        return Colors.darkBlue60
-      }
-
-      return Colors.darkBlue
+      return disabled ? Colors.grayDark50 : Colors.grayDark
   }
 }
 
@@ -160,15 +145,30 @@ const Layout = styled.View`
   flex-direction: row;
   align-items: center;
   border-radius: ${rem(16)}px;
-  background-color: ${(props) => props.theme.button.backgroundColor};
-  ${({ theme }: { theme: Theme }) =>
-    theme.button.size === 'small'
-      ? css``
-      : css`
-          height: ${rem(50)}px;
-          min-width: ${rem(50)}px;
-          /* padding-horizontal: ${rem(20)}px; */
-        `};
+  background-color: ${(props) => getBackgroundColor(props.theme.button)};
+  ${({ theme }: { theme: Theme }) => {
+    let styles = ''
+
+    if (theme.button.size !== 'small') {
+      // Use template literals to accumulate styles.
+      styles += `
+    height: ${rem(50)}px;
+    min-width: ${rem(50)}px;
+    /* padding-horizontal: ${rem(20)}px; */
+  `
+    }
+    if (theme.button.isShadow) {
+      // Continue adding to the styles string.
+      styles += `
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  `
+    }
+
+    // Return the accumulated styles.
+    return css`
+      ${styles}
+    `
+  }}
 `
 
 const SmallTitle = styled(TextStyles.CalloutM).attrs({

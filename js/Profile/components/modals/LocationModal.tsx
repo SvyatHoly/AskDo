@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { TextStyles, rem, Colors, Button } from 'design-system'
+import { TextStyles, rem, Colors, Button, ButtonColor } from 'design-system'
 import { v4 as uuidv4 } from 'uuid'
 import { CloseIcon } from 'shared/icons/CloseIcon'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -63,7 +63,7 @@ export const LocationModal: React.FC<Props> = ({ location, onClose, onSave }) =>
               />
             </InputContainer>
             <ButtonContainer insets={insets}>
-              <Button backgroundColor={Colors.normalBlue} onPress={handleSave}>
+              <Button color={ButtonColor.GREY} onPress={handleSave}>
                 <ButtonText>Save</ButtonText>
               </Button>
             </ButtonContainer>
